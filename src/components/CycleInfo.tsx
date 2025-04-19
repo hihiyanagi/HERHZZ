@@ -76,7 +76,7 @@ const CycleInfo = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-moon-dark">
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-moon-dark font-serif">
         你的周期，你的睡眠声音
       </h2>
 
@@ -91,7 +91,7 @@ const CycleInfo = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 py-3 px-4 rounded-full transition-all text-sm md:text-base font-medium
+            className={`flex-1 py-3 px-4 rounded-full transition-all text-sm md:text-base font-medium font-serif
               ${activeTab === tab.id 
                 ? 'bg-moon-dark text-white shadow-lg' 
                 : 'text-moon-dark hover:bg-moon-light/50'}`}
@@ -103,25 +103,25 @@ const CycleInfo = () => {
 
       {/* 身体变化说明 */}
       <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 mb-8 transform transition-all duration-300">
-        <h3 className="text-xl text-moon-dark font-medium mb-4 flex items-center">
+        <h3 className="text-xl text-moon-dark font-medium mb-4 flex items-center font-serif">
           <Moon className="w-5 h-5 mr-2" />
           身体变化
         </h3>
-        <p className="text-gray-700 leading-relaxed">
+        <p className="text-gray-700 leading-relaxed font-serif">
           {cycleData[activeTab].bodyChanges}
         </p>
       </div>
 
       {/* 声音疗愈说明 */}
       <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 mb-12 transform transition-all duration-300">
-        <h3 className="text-xl text-moon-dark font-medium mb-4 flex items-center">
+        <h3 className="text-xl text-moon-dark font-medium mb-4 flex items-center font-serif">
           <Cloud className="w-5 h-5 mr-2" />
           声音疗愈
         </h3>
-        <p className="text-gray-700 leading-relaxed mb-4">
+        <p className="text-gray-700 leading-relaxed mb-4 font-serif">
           {cycleData[activeTab].soundHealing.needs}
         </p>
-        <p className="text-gray-700 leading-relaxed italic">
+        <p className="text-gray-700 leading-relaxed italic font-serif">
           {cycleData[activeTab].soundHealing.description}
         </p>
       </div>
@@ -133,7 +133,7 @@ const CycleInfo = () => {
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
                 <sound.icon className="w-5 h-5 text-moon-dark mr-2" />
-                <span className="text-moon-dark font-medium">{sound.name}</span>
+                <span className="text-moon-dark font-medium font-serif">{sound.name}</span>
               </div>
               <button className="w-8 h-8 rounded-full bg-moon-light flex items-center justify-center hover:bg-moon-dark transition-colors">
                 <span className="text-white">▶</span>
