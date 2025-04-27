@@ -10,7 +10,8 @@ interface IntroductionProps {
 const Introduction = ({ onContinue }: IntroductionProps) => {
   const textRef = useRef<HTMLDivElement>(null);
   
-  // We'll remove the standalone starColors since the background is now managed by ConsistentBackground
+  // Custom star colors for the background
+  const bgStarColors = ["#8c7db1", "#a395c9", "#ffffff"];
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,25 +38,25 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 relative">
-      {/* We're removing the TwinklingStars and background gradient as that's now handled by ConsistentBackground */}
+    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 relative bg-gradient-to-b from-[#e2e1f4] to-[#d8d8f0]">
+      <TwinklingStars count={40} starColors={bgStarColors} />
       
       <div className="flex flex-col items-center mb-6 z-10">
-        <h2 className="text-5xl font-playfair text-white tracking-wider animate-title">
+        <h2 className="text-5xl font-bold text-[#8c7db1] tracking-wider animate-title">
           HERHZZZ
         </h2>
       </div>
       
       <div className="mb-8 z-10">
-        <Moon size={180} moonColorScheme="warm" />
+        <Moon size={180} />
       </div>
       
-      <h3 className="text-xl md:text-2xl font-semibold text-white mb-12 z-10 animate-fade-in">
+      <h3 className="text-xl md:text-2xl font-semibold text-[#8c7db1] mb-12 z-10 animate-fade-in">
         女性。睡眠。月亮。
       </h3>
       
-      <div ref={textRef} className="max-w-2xl text-white mb-10 z-10">
-        <div className="fade-in-section space-y-8 p-8 rounded-lg backdrop-blur-sm leading-loose bg-white/5">
+      <div ref={textRef} className="max-w-2xl text-[#6a6a8e] mb-10 z-10">
+        <div className="fade-in-section space-y-8 p-8 rounded-lg backdrop-blur-sm leading-loose bg-white/30">
           <div className="space-y-2">
             <p className="text-lg">有些夜晚，我们会突然失眠，翻来覆去找不到原因。</p>
             <p className="text-lg">但其实，我们的身体并没有出错，</p>
@@ -81,7 +82,7 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
       {onContinue && (
         <button 
           onClick={onContinue}
-          className="px-8 py-3 bg-transparent hover:bg-white/20 border border-white text-white rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg z-10 animate-fade-in"
+          className="px-8 py-3 bg-transparent hover:bg-[#8c7db1]/20 border border-[#8c7db1] text-[#8c7db1] rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg z-10 animate-fade-in"
           style={{ animationDelay: '1.5s' }}
         >
           继续

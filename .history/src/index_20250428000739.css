@@ -3,9 +3,6 @@
 @tailwind utilities;
 @import './components/ui/keyframes.css';
 
-/* 导入Playfair România Thin字体 */
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
-
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -13,14 +10,6 @@
   
   body {
     min-height: 100vh;
-  }
-  
-  /* 添加Playfair România字体类 */
-  .font-playfair {
-    font-family: 'Playfair Display', serif;
-    font-weight: 400;
-    font-style: normal;
-    letter-spacing: 0.05em;
   }
 }
 

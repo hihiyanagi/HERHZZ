@@ -3,6 +3,7 @@ import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import AudioPlayer from "./AudioPlayer";
+import TwinklingStars from "./TwinklingStars";
 import { Calendar as CalendarUI } from "@/components/ui/calendar";
 import {
   Popover,
@@ -109,7 +110,11 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
   };
 
   return (
-    <div className="p-6">
+    <div 
+      className={`min-h-screen p-6 relative ${!hasSubmitted ? 'bg-gradient-to-b from-purple-900 to-starry-dark' : 'bg-gradient-to-b from-starry-dark to-black'}`}
+    >
+      {hasSubmitted && <TwinklingStars count={120} />}
+      
       <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
         {!hasSubmitted ? (
           <div className="max-w-md mx-auto">

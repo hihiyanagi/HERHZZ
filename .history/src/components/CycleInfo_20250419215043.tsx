@@ -76,12 +76,12 @@ const CycleInfo = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
-      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-white">
+      <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-moon-dark font-serif">
         你的周期，你的睡眠声音
       </h2>
 
       {/* 周期阶段 Tabs */}
-      <div className="flex justify-between mb-12 backdrop-blur-sm rounded-full p-1 border border-white/20">
+      <div className="flex justify-between mb-12 bg-white/30 backdrop-blur-sm rounded-full p-1">
         {[
           { id: 'menstrual', name: '月经期' },
           { id: 'follicular', name: '卵泡期' },
@@ -91,10 +91,10 @@ const CycleInfo = () => {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`flex-1 py-3 px-4 rounded-full transition-all text-sm md:text-base font-medium
+            className={`flex-1 py-3 px-4 rounded-full transition-all text-sm md:text-base font-medium font-serif
               ${activeTab === tab.id 
-                ? 'bg-white/20 text-white shadow-lg' 
-                : 'text-white hover:bg-white/10'}`}
+                ? 'bg-moon-dark text-white shadow-lg' 
+                : 'text-moon-dark hover:bg-moon-light/50'}`}
           >
             {tab.name}
           </button>
@@ -102,26 +102,26 @@ const CycleInfo = () => {
       </div>
 
       {/* 身体变化说明 */}
-      <div className="backdrop-blur-sm rounded-lg p-6 mb-8 transform transition-all duration-300 border border-white/20">
-        <h3 className="text-xl text-white font-medium mb-4 flex items-center">
+      <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 mb-8 transform transition-all duration-300">
+        <h3 className="text-xl text-moon-dark font-medium mb-4 flex items-center font-serif">
           <Moon className="w-5 h-5 mr-2" />
           身体变化
         </h3>
-        <p className="text-white leading-relaxed">
+        <p className="text-gray-700 leading-relaxed font-serif">
           {cycleData[activeTab].bodyChanges}
         </p>
       </div>
 
       {/* 声音疗愈说明 */}
-      <div className="backdrop-blur-sm rounded-lg p-6 mb-12 transform transition-all duration-300 border border-white/20">
-        <h3 className="text-xl text-white font-medium mb-4 flex items-center">
+      <div className="bg-white/50 backdrop-blur-sm rounded-lg p-6 mb-12 transform transition-all duration-300">
+        <h3 className="text-xl text-moon-dark font-medium mb-4 flex items-center font-serif">
           <Cloud className="w-5 h-5 mr-2" />
           声音疗愈
         </h3>
-        <p className="text-white leading-relaxed mb-4">
+        <p className="text-gray-700 leading-relaxed mb-4 font-serif">
           {cycleData[activeTab].soundHealing.needs}
         </p>
-        <p className="text-white/80 leading-relaxed italic">
+        <p className="text-gray-700 leading-relaxed italic font-serif">
           {cycleData[activeTab].soundHealing.description}
         </p>
       </div>
@@ -129,18 +129,18 @@ const CycleInfo = () => {
       {/* 白噪音选项 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {cycleData[activeTab].sounds.map((sound, index) => (
-          <div key={sound.name} className="backdrop-blur-sm rounded-lg p-6 hover:shadow-lg transition-all transform hover:scale-102 border border-white/20">
+          <div key={sound.name} className="bg-white/50 backdrop-blur-sm rounded-lg p-6 hover:shadow-lg transition-all transform hover:scale-102">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center">
-                <sound.icon className="w-5 h-5 text-white mr-2" />
-                <span className="text-white font-medium">{sound.name}</span>
+                <sound.icon className="w-5 h-5 text-moon-dark mr-2" />
+                <span className="text-moon-dark font-medium font-serif">{sound.name}</span>
               </div>
-              <button className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">
+              <button className="w-8 h-8 rounded-full bg-moon-light flex items-center justify-center hover:bg-moon-dark transition-colors">
                 <span className="text-white">▶</span>
               </button>
             </div>
-            <div className="h-2 bg-white/20 rounded-full">
-              <div className="h-full w-1/3 bg-white/50 rounded-full"></div>
+            <div className="h-2 bg-moon-light/30 rounded-full">
+              <div className="h-full w-1/3 bg-moon-dark rounded-full"></div>
             </div>
           </div>
         ))}

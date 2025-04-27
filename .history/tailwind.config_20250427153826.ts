@@ -151,14 +151,6 @@ export default {
 					'50%': {
 						opacity: '0.7'
 					}
-				},
-				'spin-slow': {
-					'from': {
-						transform: 'rotate(0deg)'
-					},
-					'to': {
-						transform: 'rotate(360deg)'
-					}
 				}
 			},
 			animation: {
@@ -168,8 +160,7 @@ export default {
 				'float': 'float 6s ease-in-out infinite',
 				'title': 'title-glow 3s ease-in-out infinite',
 				'fade-in': 'fade-in 1s ease-out forwards',
-				'pulse-slow': 'pulse-slow 8s ease-in-out infinite',
-				'spin-slow': 'spin-slow 60s linear infinite'
+				'pulse-slow': 'pulse-slow a8s ease-in-out infinite'
 			}
 		}
 	},

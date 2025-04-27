@@ -18,10 +18,6 @@ export default {
 			}
 		},
 		extend: {
-			backgroundImage: {
-				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-				'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
-			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
@@ -109,13 +105,11 @@ export default {
 				'twinkle': {
 					'0%, 100%': {
 						opacity: '0.2',
-						transform: 'scale(0.8)',
-						filter: 'brightness(0.8)'
+						transform: 'scale(0.8)'
 					},
 					'50%': {
 						opacity: '1',
-						transform: 'scale(1)',
-						filter: 'brightness(1.2)'
+						transform: 'scale(1)'
 					}
 				},
 				'float': {
@@ -143,22 +137,6 @@ export default {
 						opacity: '1',
 						transform: 'translateY(0)'
 					}
-				},
-				'pulse-slow': {
-					'0%, 100%': {
-						opacity: '1'
-					},
-					'50%': {
-						opacity: '0.7'
-					}
-				},
-				'spin-slow': {
-					'from': {
-						transform: 'rotate(0deg)'
-					},
-					'to': {
-						transform: 'rotate(360deg)'
-					}
 				}
 			},
 			animation: {
@@ -167,9 +145,7 @@ export default {
 				'twinkle': 'twinkle 4s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
 				'title': 'title-glow 3s ease-in-out infinite',
-				'fade-in': 'fade-in 1s ease-out forwards',
-				'pulse-slow': 'pulse-slow 8s ease-in-out infinite',
-				'spin-slow': 'spin-slow 60s linear infinite'
+				'fade-in': 'fade-in 1s ease-out forwards'
 			}
 		}
 	},

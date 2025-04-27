@@ -37,16 +37,16 @@ const AudioPlayer = ({ title, audioSrc, className }: AudioPlayerProps) => {
   };
 
   return (
-    <div className={cn("flex flex-col items-center p-3 rounded-lg backdrop-blur-sm border border-white/20", className)}>
+    <div className={cn("flex flex-col items-center p-3 rounded-lg bg-white/10 backdrop-blur-sm", className)}>
       <audio ref={audioRef} src={audioSrc} loop />
       <div className="flex items-center justify-between w-full mb-2">
-        <span className="text-sm font-medium text-white">{title}</span>
+        <span className="text-sm font-medium text-white font-serif">{title}</span>
         <Button 
           variant="ghost" 
           size="icon" 
           className={cn(
             "rounded-full w-10 h-10", 
-            isPlaying ? "bg-white/20 text-white" : "bg-transparent border border-white/30 text-white"
+            isPlaying ? "bg-white text-blue-900" : "bg-white/20 text-white hover:bg-white/30"
           )}
           onClick={togglePlay}
         >
@@ -66,7 +66,7 @@ const AudioPlayer = ({ title, audioSrc, className }: AudioPlayerProps) => {
           step="0.01"
           value={volume}
           onChange={handleVolumeChange}
-          className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/30"
+          className="w-full h-1.5 rounded-lg appearance-none cursor-pointer bg-white/20"
         />
       </div>
     </div>

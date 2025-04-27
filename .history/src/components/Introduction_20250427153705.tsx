@@ -10,7 +10,8 @@ interface IntroductionProps {
 const Introduction = ({ onContinue }: IntroductionProps) => {
   const textRef = useRef<HTMLDivElement>(null);
   
-  // We'll remove the standalone starColors since the background is now managed by ConsistentBackground
+  // 星星颜色适配深蓝色背景
+  const bgStarColors = ["#ffffff", "#a0a7dd", "#8e9ef0"];
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,11 +38,11 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 relative">
-      {/* We're removing the TwinklingStars and background gradient as that's now handled by ConsistentBackground */}
+    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 relative bg-gradient-to-b from-starry-dark to-black">
+      <TwinklingStars count={60} starColors={bgStarColors} />
       
       <div className="flex flex-col items-center mb-6 z-10">
-        <h2 className="text-5xl font-playfair text-white tracking-wider animate-title">
+        <h2 className="text-5xl font-bold text-white tracking-wider animate-title">
           HERHZZZ
         </h2>
       </div>

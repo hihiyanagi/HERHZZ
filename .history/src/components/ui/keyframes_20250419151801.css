@@ -1,3 +1,4 @@
+
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -44,30 +45,6 @@
   }
 }
 
-@keyframes gradient-flow {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
-}
-
-@keyframes color-shift {
-  0% {
-    filter: hue-rotate(0deg);
-  }
-  50% {
-    filter: hue-rotate(10deg);
-  }
-  100% {
-    filter: hue-rotate(0deg);
-  }
-}
-
 .animate-fade-in {
   animation: fade-in 0.6s ease-out forwards;
 }
@@ -82,12 +59,4 @@
 
 .animate-pulse-soft {
   animation: pulse-soft 3s infinite;
-}
-
-.animate-gradient-flow {
-  animation: gradient-flow 8s ease infinite;
-}
-
-.animate-color-shift {
-  animation: color-shift 5s ease-in-out infinite;
 }

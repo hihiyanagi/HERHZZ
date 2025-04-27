@@ -109,7 +109,15 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
   };
 
   return (
-    <div className="p-6">
+    <div 
+      className={`min-h-screen p-6 relative ${!hasSubmitted ? 'purple-to-blue-gradient' : ''}`}
+      style={{
+        backgroundImage: hasSubmitted ? "url('/images/starry-background.svg')" : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
         {!hasSubmitted ? (
           <div className="max-w-md mx-auto">
@@ -117,7 +125,7 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
               输入你的周期
             </h2>
             
-            <div className="backdrop-blur-sm bg-white/5 rounded-lg p-6 mb-6 animate-fade-in">
+            <div className="backdrop-blur-sm rounded-lg p-6 mb-6 animate-fade-in">
               <p className="text-white mb-6">
                 请选择你当前或最近一次月经的开始日期，我们将为你推荐适合的白噪音。
               </p>
@@ -167,14 +175,14 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
             
             {currentPhase && (
               <>
-                <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-6 animate-title">
+                <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-6">
                   {currentPhase === "menstrual" && "月经期"}
                   {currentPhase === "follicular" && "卵泡期"}
                   {currentPhase === "ovulation" && "排卵期"}
                   {currentPhase === "luteal" && "黄体期"}
                 </h2>
                 
-                <div className="backdrop-blur-md bg-white/5 rounded-lg p-6 mb-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                <div className="backdrop-blur-md rounded-lg p-6 mb-6">
                   <h3 className="text-xl font-semibold text-white mb-4">推荐白噪音</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     {phaseGuides[currentPhase].sounds.map((sound, index) => (
@@ -183,9 +191,9 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
                   </div>
                   
                   <h3 className="text-xl font-semibold text-white mb-4">导入语</h3>
-                  <div className="rounded-lg p-4 bg-white/5">
+                  <div className="rounded-lg p-4">
                     {phaseGuides[currentPhase].guideText.map((line, index) => (
-                      <p key={index} className="text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
+                      <p key={index} className="text-white mb-2">{line}</p>
                     ))}
                   </div>
                 </div>
@@ -193,6 +201,13 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
             )}
           </div>
         )}
+      </div>
+
+      {/* 底部的月亮图形 */}
+      <div className="absolute bottom-0 left-0 right-0 w-full" style={{ zIndex: 0 }}>
+        <object type="image/svg+xml" data="/images/moon-shape.svg" className="w-full h-64 md:h-80" aria-hidden="true">
+          <img src="/images/moon-shape.svg" alt="月亮" className="w-full h-64 md:h-80" />
+        </object>
       </div>
     </div>
   );

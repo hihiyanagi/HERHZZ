@@ -3,6 +3,8 @@ import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import AudioPlayer from "./AudioPlayer";
+import TwinklingStars from "./TwinklingStars";
+import Moon from "./Moon";
 import { Calendar as CalendarUI } from "@/components/ui/calendar";
 import {
   Popover,
@@ -96,6 +98,9 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<CyclePhase | null>(null);
   
+  // 星星颜色适配深蓝色背景
+  const bgStarColors = ["#ffffff", "#a0a7dd", "#8e9ef0"];
+  
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
   };
@@ -109,7 +114,11 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
   };
 
   return (
-    <div className="p-6">
+    <div 
+      className={`min-h-screen p-6 relative ${!hasSubmitted ? 'bg-gradient-to-b from-starry-dark to-black' : 'bg-gradient-to-b from-starry-dark to-black'}`}
+    >
+      <TwinklingStars count={60} starColors={bgStarColors} />
+      
       <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
         {!hasSubmitted ? (
           <div className="max-w-md mx-auto">
@@ -167,6 +176,10 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
             
             {currentPhase && (
               <>
+                <div className="flex justify-center mb-6">
+                  <Moon size={80} moonColorScheme="warm" />
+                </div>
+                
                 <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-6 animate-title">
                   {currentPhase === "menstrual" && "月经期"}
                   {currentPhase === "follicular" && "卵泡期"}

@@ -3,6 +3,9 @@ import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import AudioPlayer from "./AudioPlayer";
+import TwinklingStars from "./TwinklingStars";
+import Moon from "./Moon";
+import PatternBackground from "./PatternBackground";
 import { Calendar as CalendarUI } from "@/components/ui/calendar";
 import {
   Popover,
@@ -109,92 +112,94 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
   };
 
   return (
-    <div className="p-6">
-      <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
-        {!hasSubmitted ? (
-          <div className="max-w-md mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-8 animate-float">
-              输入你的周期
-            </h2>
-            
-            <div className="backdrop-blur-sm bg-white/5 rounded-lg p-6 mb-6 animate-fade-in">
-              <p className="text-white mb-6">
-                请选择你当前或最近一次月经的开始日期，我们将为你推荐适合的白噪音。
-              </p>
+    <PatternBackground>
+      <div className="p-6">
+        <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
+          {!hasSubmitted ? (
+            <div className="max-w-md mx-auto">
+              <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-8 animate-float">
+                输入你的周期
+              </h2>
               
-              <div className="mb-6">
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <Button
-                      variant="outline"
-                      className={cn(
-                        "w-full justify-start text-left font-normal bg-transparent border-white text-white",
-                        !date && "text-white/70"
-                      )}
-                    >
-                      <Calendar className="mr-2 h-4 w-4" />
-                      {date ? format(date, "PPP") : <span>选择日期</span>}
-                    </Button>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-auto p-0">
-                    <CalendarUI
-                      mode="single"
-                      selected={date}
-                      onSelect={handleDateSelect}
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
-              </div>
-              
-              <Button 
-                onClick={handleSubmit}
-                className="w-full bg-transparent hover:bg-white/20 border border-white text-white"
-                disabled={!date}
-              >
-                确认
-              </Button>
-            </div>
-          </div>
-        ) : (
-          <div className="max-w-2xl mx-auto animate-fade-in">
-            <button 
-              onClick={() => setHasSubmitted(false)}
-              className="mb-6 flex items-center text-white hover:text-moon-light transition-colors"
-            >
-              <span className="mr-1">←</span> 返回修改
-            </button>
-            
-            {currentPhase && (
-              <>
-                <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-6 animate-title">
-                  {currentPhase === "menstrual" && "月经期"}
-                  {currentPhase === "follicular" && "卵泡期"}
-                  {currentPhase === "ovulation" && "排卵期"}
-                  {currentPhase === "luteal" && "黄体期"}
-                </h2>
+              <div className="backdrop-blur-sm bg-white/5 rounded-lg p-6 mb-6 animate-fade-in">
+                <p className="text-white mb-6">
+                  请选择你当前或最近一次月经的开始日期，我们将为你推荐适合的白噪音。
+                </p>
                 
-                <div className="backdrop-blur-md bg-white/5 rounded-lg p-6 mb-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                  <h3 className="text-xl font-semibold text-white mb-4">推荐白噪音</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    {phaseGuides[currentPhase].sounds.map((sound, index) => (
-                      <AudioPlayer key={index} title={sound} audioSrc="#" />
-                    ))}
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold text-white mb-4">导入语</h3>
-                  <div className="rounded-lg p-4 bg-white/5">
-                    {phaseGuides[currentPhase].guideText.map((line, index) => (
-                      <p key={index} className="text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
-                    ))}
-                  </div>
+                <div className="mb-6">
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        className={cn(
+                          "w-full justify-start text-left font-normal bg-transparent border-white text-white",
+                          !date && "text-white/70"
+                        )}
+                      >
+                        <Calendar className="mr-2 h-4 w-4" />
+                        {date ? format(date, "PPP") : <span>选择日期</span>}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-auto p-0">
+                      <CalendarUI
+                        mode="single"
+                        selected={date}
+                        onSelect={handleDateSelect}
+                        initialFocus
+                      />
+                    </PopoverContent>
+                  </Popover>
                 </div>
-              </>
-            )}
-          </div>
-        )}
+                
+                <Button 
+                  onClick={handleSubmit}
+                  className="w-full bg-transparent hover:bg-white/20 border border-white text-white"
+                  disabled={!date}
+                >
+                  确认
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <div className="max-w-2xl mx-auto animate-fade-in">
+              <button 
+                onClick={() => setHasSubmitted(false)}
+                className="mb-6 flex items-center text-white hover:text-moon-light transition-colors"
+              >
+                <span className="mr-1">←</span> 返回修改
+              </button>
+              
+              {currentPhase && (
+                <>
+                  <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-6 animate-title">
+                    {currentPhase === "menstrual" && "月经期"}
+                    {currentPhase === "follicular" && "卵泡期"}
+                    {currentPhase === "ovulation" && "排卵期"}
+                    {currentPhase === "luteal" && "黄体期"}
+                  </h2>
+                  
+                  <div className="backdrop-blur-md bg-white/5 rounded-lg p-6 mb-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+                    <h3 className="text-xl font-semibold text-white mb-4">推荐白噪音</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                      {phaseGuides[currentPhase].sounds.map((sound, index) => (
+                        <AudioPlayer key={index} title={sound} audioSrc="#" />
+                      ))}
+                    </div>
+                    
+                    <h3 className="text-xl font-semibold text-white mb-4">导入语</h3>
+                    <div className="rounded-lg p-4 bg-white/5">
+                      {phaseGuides[currentPhase].guideText.map((line, index) => (
+                        <p key={index} className="text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
+    </PatternBackground>
   );
 };
 

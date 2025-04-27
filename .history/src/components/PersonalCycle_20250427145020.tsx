@@ -109,7 +109,15 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
   };
 
   return (
-    <div className="p-6">
+    <div 
+      className={`min-h-screen p-6 relative ${!hasSubmitted ? 'purple-to-blue-gradient' : ''}`}
+      style={{
+        backgroundImage: hasSubmitted ? "url('/images/starry-background.svg')" : 'none',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat'
+      }}
+    >
       <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
         {!hasSubmitted ? (
           <div className="max-w-md mx-auto">
@@ -117,8 +125,8 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
               输入你的周期
             </h2>
             
-            <div className="backdrop-blur-sm bg-white/5 rounded-lg p-6 mb-6 animate-fade-in">
-              <p className="text-white mb-6">
+            <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 mb-6 shadow-sm animate-fade-in">
+              <p className="text-night-dark mb-6">
                 请选择你当前或最近一次月经的开始日期，我们将为你推荐适合的白噪音。
               </p>
               
@@ -128,8 +136,8 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
                     <Button
                       variant="outline"
                       className={cn(
-                        "w-full justify-start text-left font-normal bg-transparent border-white text-white",
-                        !date && "text-white/70"
+                        "w-full justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
                       )}
                     >
                       <Calendar className="mr-2 h-4 w-4" />
@@ -149,7 +157,7 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
               
               <Button 
                 onClick={handleSubmit}
-                className="w-full bg-transparent hover:bg-white/20 border border-white text-white"
+                className="w-full bg-moon-DEFAULT hover:bg-moon-dark text-white"
                 disabled={!date}
               >
                 确认
@@ -167,30 +175,39 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
             
             {currentPhase && (
               <>
-                <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-6 animate-title">
+                <h2 className="text-2xl md:text-3xl font-bold text-white text-center mb-4">
                   {currentPhase === "menstrual" && "月经期"}
                   {currentPhase === "follicular" && "卵泡期"}
                   {currentPhase === "ovulation" && "排卵期"}
                   {currentPhase === "luteal" && "黄体期"}
                 </h2>
                 
-                <div className="backdrop-blur-md bg-white/5 rounded-lg p-6 mb-6 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-                  <h3 className="text-xl font-semibold text-white mb-4">推荐白噪音</h3>
+                <div className="bg-white/80 backdrop-blur-md rounded-lg p-6 mb-6 shadow-lg">
+                  <h3 className="text-xl font-semibold text-starry-DEFAULT mb-4">推荐白噪音</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     {phaseGuides[currentPhase].sounds.map((sound, index) => (
                       <AudioPlayer key={index} title={sound} audioSrc="#" />
                     ))}
                   </div>
                   
-                  <h3 className="text-xl font-semibold text-white mb-4">导入语</h3>
-                  <div className="rounded-lg p-4 bg-white/5">
+                  <h3 className="text-xl font-semibold text-starry-DEFAULT mb-4">导入语</h3>
+                  <div className="bg-starry-light/10 p-4 rounded-lg">
                     {phaseGuides[currentPhase].guideText.map((line, index) => (
-                      <p key={index} className="text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
+                      <p key={index} className="text-night-dark mb-2">{line}</p>
                     ))}
                   </div>
                 </div>
               </>
             )}
+            
+            <div className="flex justify-center mt-8">
+              <button 
+                onClick={onReset}
+                className="px-8 py-3 bg-starry-DEFAULT hover:bg-starry-dark text-white rounded-full font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg"
+              >
+                返回首页
+              </button>
+            </div>
           </div>
         )}
       </div>

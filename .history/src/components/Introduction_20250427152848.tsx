@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import TwinklingStars from "./TwinklingStars";
-import Moon from "./Moon";
 
 interface IntroductionProps {
   onContinue?: () => void;
@@ -9,8 +8,6 @@ interface IntroductionProps {
 
 const Introduction = ({ onContinue }: IntroductionProps) => {
   const textRef = useRef<HTMLDivElement>(null);
-  
-  // We'll remove the standalone starColors since the background is now managed by ConsistentBackground
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -37,17 +34,13 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 relative">
-      {/* We're removing the TwinklingStars and background gradient as that's now handled by ConsistentBackground */}
+    <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 relative bg-gradient-to-b from-starry-dark to-black">
+      <TwinklingStars count={100} />
       
       <div className="flex flex-col items-center mb-6 z-10">
-        <h2 className="text-5xl font-playfair text-white tracking-wider animate-title">
+        <h2 className="text-5xl font-bold text-white tracking-wider animate-title">
           HERHZZZ
         </h2>
-      </div>
-      
-      <div className="mb-8 z-10">
-        <Moon size={180} moonColorScheme="warm" />
       </div>
       
       <h3 className="text-xl md:text-2xl font-semibold text-white mb-12 z-10 animate-fade-in">
