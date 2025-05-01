@@ -3,7 +3,6 @@ import { Calendar } from "lucide-react";
 import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import AudioPlayer from "./AudioPlayer";
-import SleepTimer from "./SleepTimer";
 import { Calendar as CalendarUI } from "@/components/ui/calendar";
 import {
   Popover,
@@ -96,7 +95,6 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
   const [date, setDate] = useState<Date | undefined>(undefined);
   const [hasSubmitted, setHasSubmitted] = useState(false);
   const [currentPhase, setCurrentPhase] = useState<CyclePhase | null>(null);
-  const [sleepDuration, setSleepDuration] = useState<number>(0);
   
   const handleDateSelect = (selectedDate: Date | undefined) => {
     setDate(selectedDate);
@@ -108,11 +106,6 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
       setCurrentPhase(phase);
       setHasSubmitted(true);
     }
-  };
-
-  const handleDurationChange = (duration: number) => {
-    setSleepDuration(duration);
-    console.log(`Sleep duration set to: ${duration} minutes`);
   };
 
   return (
@@ -187,10 +180,6 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
                     {phaseGuides[currentPhase].sounds.map((sound, index) => (
                       <AudioPlayer key={index} title={sound} audioSrc="#" />
                     ))}
-                  </div>
-                  
-                  <div className="my-8 border-t border-white/10 pt-8">
-                    <SleepTimer onDurationChange={handleDurationChange} />
                   </div>
                   
                   <h3 className="text-xl font-semibold text-white mb-4">梦境引导语</h3>

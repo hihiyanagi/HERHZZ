@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import TwinklingStars from "./TwinklingStars";
 import Moon from "./Moon";
+import SleepTimer from "./SleepTimer";
 
 interface IntroductionProps {
   onContinue?: () => void;
@@ -9,6 +10,15 @@ interface IntroductionProps {
 
 const Introduction = ({ onContinue }: IntroductionProps) => {
   const textRef = useRef<HTMLDivElement>(null);
+  const [sleepDuration, setSleepDuration] = useState<number>(0);
+  
+  const handleDurationChange = (duration: number) => {
+    setSleepDuration(duration);
+    // 这里可以添加其他处理逻辑
+    console.log(`Sleep duration set to: ${duration} minutes`);
+  };
+  
+  // We'll remove the standalone starColors since the background is now managed by ConsistentBackground
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -74,6 +84,10 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
             <p className="text-lg">跟随你的周期，回应你的波动，用声音伴你入梦。</p>
           </div>
         </div>
+      </div>
+
+      <div className="mb-8 z-10">
+        <SleepTimer onDurationChange={handleDurationChange} />
       </div>
       
       {onContinue && (
