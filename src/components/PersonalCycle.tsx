@@ -20,14 +20,18 @@ type CyclePhase = "menstrual" | "follicular" | "ovulation" | "luteal";
 
 interface PhaseGuideText {
   phase: CyclePhase;
-  sounds: string[];
+  sounds: { name: string; audioSrc: string }[];
   guideText: string[];
 }
 
 const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
   menstrual: {
     phase: "menstrual",
-    sounds: ["🎵 月之低雨", "🎵 摇篮潮汐", "🎵 银河风琴"],
+    sounds: [
+      { name: "🎵 摇篮潮汐", audioSrc: "/audio/yaolan_chaoxi.mp3" },
+      { name: "🎵 星际睡龙", audioSrc: "/audio/xingji_shuilong.mp3" },
+      { name: "🎵 银河风琴", audioSrc: "/audio/yinhe_fengqin.mp3" }
+    ],
     guideText: [
       "闭上眼睛，让整个人慢下来。",
       "呼吸轻一点，慢一点。",
@@ -40,7 +44,11 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
   },
   follicular: {
     phase: "follicular",
-    sounds: ["🎵 月光泡浴", "🎵 银光森林", "🎵 粉樱温泉"],
+    sounds: [
+      { name: "🎵 月光泡浴", audioSrc: "/audio/yueguang_paoyu.mp3" },
+      { name: "🎵 银光森林", audioSrc: "/audio/yinguang_senlin.mp3" },
+      { name: "🎵 粉樱温泉", audioSrc: "/audio/fenying_wenquan.mp3" }
+    ],
     guideText: [
       "听见了吗？有一点点能量，在你身体里悄悄冒芽。",
       "不急，它不会催你醒来，只是轻轻地，把你托起。",
@@ -54,7 +62,11 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
   },
   ovulation: {
     phase: "ovulation",
-    sounds: ["🎵 茸茸月声", "🎵 雪地猫步", "🎵 秋岛之夜"],
+    sounds: [
+      { name: "🎵 茸茸月声", audioSrc: "/audio/rongrong_yuesheng.mp3" },
+      { name: "🎵 软眠猫呼", audioSrc: "/audio/xuedi_maobu.mp3" },
+      { name: "🎵 爱之频率", audioSrc: "/audio/qiudao_zhiye.mp3" }
+    ],
     guideText: [
       "有点清醒，也有点敏感。",
       "今天的你，像月夜盛开的花，",
@@ -68,7 +80,11 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
   },
   luteal: {
     phase: "luteal",
-    sounds: ["🎵 月云软语", "🎵 苔藓蒸汽", "🎵 夜空寺庙"],
+    sounds: [
+      { name: "🎵 梦海深潜", audioSrc: "/audio/yueyun_ruanyu.mp3" },
+      { name: "🎵 苔藓蒸汽", audioSrc: "/audio/taixian_zhengqi.mp3" },
+      { name: "🎵 夜空寺庙", audioSrc: "/audio/yekong_simiao.mp3" }
+    ],
     guideText: [
       "今天的你，是否感到一点点疲惫，却又莫名烦躁？",
       "仿佛身心都在等待什么，却说不出是什么。",
@@ -82,13 +98,22 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
 };
 
 // Helper function to determine the cycle phase based on the date
-const determineCyclePhase = (cycleStartDate: Date, currentDate: Date): CyclePhase => {
+interface CycleSettings {
+  cycleLength: number; // 允许用户自定义周期长度
+  menstrualDays: number; // 经期天数
+}
+
+const determineCyclePhase = (
+  cycleStartDate: Date, 
+  currentDate: Date, 
+  settings: CycleSettings = { cycleLength: 28, menstrualDays: 5 }
+): CyclePhase => {
   const daysDiff = Math.floor((currentDate.getTime() - cycleStartDate.getTime()) / (1000 * 60 * 60 * 24));
+  const cycleDays = daysDiff % settings.cycleLength;
   
-  // Average 28-day cycle: Menstrual (1-5), Follicular (6-11), Ovulation (12-16), Luteal (17-28)
-  if (daysDiff < 5) return "menstrual";
-  if (daysDiff < 11) return "follicular";
-  if (daysDiff < 16) return "ovulation";
+  if (cycleDays < settings.menstrualDays) return "menstrual";
+  if (cycleDays < settings.cycleLength * 0.4) return "follicular"; 
+  if (cycleDays < settings.cycleLength * 0.6) return "ovulation";
   return "luteal";
 };
 
@@ -185,7 +210,12 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
                   <h3 className="text-xl font-semibold text-white mb-4">推荐白噪音</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                     {phaseGuides[currentPhase].sounds.map((sound, index) => (
-                      <AudioPlayer key={index} title={sound} audioSrc="#" />
+                      <AudioPlayer 
+                        key={index} 
+                        title={sound.name} 
+                        audioSrc={sound.audioSrc}
+                        sleepDuration={sleepDuration}
+                      />
                     ))}
                   </div>
                   

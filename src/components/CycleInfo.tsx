@@ -5,6 +5,7 @@ import { LucideIcon } from 'lucide-react';
 interface SoundInfo {
   name: string;
   icon: LucideIcon;
+  audioSrc: string;
 }
 
 interface CyclePhase {
@@ -31,9 +32,9 @@ const CycleInfo = () => {
         description: '40-60Hz，如"音频版热水袋"，低频声音有助于放松交感神经，营造"子宫感"或"胎内感"——让身体信任被包裹。'
       },
       sounds: [
-        { name: "月之低雨", icon: Music },
-        { name: "摇篮潮汐", icon: Waves },
-        { name: "银河风琴", icon: Moon }
+        { name: "摇篮潮汐", icon: Waves, audioSrc: "/audio/yaolan_chaoxi.mp3" },
+        { name: "星际睡龙", icon: Music, audioSrc: "/audio/xingji_shuilong.mp3" },
+        { name: "银河风琴", icon: Moon, audioSrc: "/audio/yinhe_fengqin.mp3" }
       ]
     },
     follicular: {
@@ -43,9 +44,9 @@ const CycleInfo = () => {
         description: '100-200Hz，与你上升的能量匹配，有助于平衡大脑活动，开启清醒而平和的休息通道。'
       },
       sounds: [
-        { name: "月光泡浴", icon: Moon },
-        { name: "银光森林", icon: Stars },
-        { name: "粉樱温泉", icon: Sun }
+        { name: "月光泡浴", icon: Moon, audioSrc: "/audio/yueguang_paoyu.mp3" },
+        { name: "银光森林", icon: Stars, audioSrc: "/audio/yinguang_senlin.mp3" },
+        { name: "粉樱温泉", icon: Sun, audioSrc: "/audio/fenying_wenquan.mp3" }
       ]
     },
     ovulation: {
@@ -55,9 +56,9 @@ const CycleInfo = () => {
         description: '528Hz 被称为"爱之频率"，共振心绪，调节情绪波动，让脆弱的夜晚变得柔软、充满安全感。'
       },
       sounds: [
-        { name: "茸茸月声", icon: Moon },
-        { name: "雪地猫步", icon: Stars },
-        { name: "秋岛之夜", icon: Cloud }
+        { name: "茸茸月声", icon: Moon, audioSrc: "/audio/rongrong_yuesheng.mp3" },
+        { name: "软眠猫呼", icon: Stars, audioSrc: "/audio/xuedi_maobu.mp3" },
+        { name: "爱之频率", icon: Cloud, audioSrc: "/audio/qiudao_zhiye.mp3" }
       ]
     },
     luteal: {
@@ -67,9 +68,9 @@ const CycleInfo = () => {
         description: '60-80Hz 低频铺底，辅以 theta 波（4-8Hz）脑波引导，稳定情绪起伏，沉入梦境。'
       },
       sounds: [
-        { name: "月云软语", icon: Cloud },
-        { name: "苔藓蒸汽", icon: Waves },
-        { name: "夜空寺庙", icon: Stars }
+        { name: "梦海深潜", icon: Cloud, audioSrc: "/audio/yueyun_ruanyu.mp3" },
+        { name: "苔藓蒸汽", icon: Waves, audioSrc: "/audio/taixian_zhengqi.mp3" },
+        { name: "夜空寺庙", icon: Stars, audioSrc: "/audio/yekong_simiao.mp3" }
       ]
     }
   };
@@ -139,9 +140,12 @@ const CycleInfo = () => {
                 <span className="text-white">▶</span>
               </button>
             </div>
-            <div className="h-2 bg-white/20 rounded-full">
+            <div className="h-2 bg-white/20 rounded-full mb-2">
               <div className="h-full w-1/3 bg-white/50 rounded-full"></div>
             </div>
+            {sound.audioSrc && (
+              <audio controls src={sound.audioSrc} className="w-full mt-2" />
+            )}
           </div>
         ))}
       </div>
