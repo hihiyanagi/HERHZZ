@@ -270,10 +270,9 @@ VITE_SUPABASE_ANON_KEY=你的匿名密钥
             )}
             
             <div className="backdrop-blur-sm bg-white/5 rounded-lg p-6 mb-6 animate-fade-in">
-              <div className="text-white mb-6">
-                <p>请选择你最近一次月经的开始日期，</p>
-                <p>将为你推荐与身体同频的白噪音。</p>
-              </div>
+              <p className="text-white mb-6">
+                请选择你最近一次月经的开始日期，将为你推荐适合的白噪音。
+              </p>
               
               {/* 错误信息显示 */}
               {error && (
