@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PixelTrail 鼠标轨迹演示</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+        
+        .demo-container {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .title {
+            font-size: 3rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+        
+        .instruction {
+            font-size: 1.2rem;
+            text-align: center;
+            opacity: 0.8;
+        }
+        
+        #pixelCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            filter: url(#goo-filter);
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <!-- SVG滤镜 -->
+        <svg style="position: absolute; width: 0; height: 0;">
+            <defs>
+                <filter id="goo-filter">
+                    <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+                    <feColorMatrix
+                        in="blur"
+                        mode="matrix"
+                        values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 19 -9"
+                    />
+                    <feComposite in="SourceGraphic" in2="blur" operator="atop" />
+                </filter>
+            </defs>
+        </svg>
+        
+        <canvas id="pixelCanvas"></canvas>
+        
+        <h1 class="title">HERHZZZ 鼠标轨迹效果</h1>
+        <p class="instruction">移动鼠标体验月光轨迹效果 ✨</p>
+    </div>
+
+    <script>
+        class PixelTrail {
+            constructor(canvas, options = {}) {
+                this.canvas = canvas;
+                this.ctx = canvas.getContext('2d');
+                this.pixels = [];
+                this.mouse = { x: 0, y: 0 };
+                
+                // 配置参数
+                this.gridSize = options.gridSize || 30;
+                this.trailSize = options.trailSize || 0.08;
+                this.maxAge = options.maxAge || 180;
+                this.interpolate = options.interpolate || 3;
+                this.color = options.color || 'rgba(251, 191, 36, 0.6)';
+                
+                this.init();
+            }
+            
+            init() {
+                this.resizeCanvas();
+                this.bindEvents();
+                this.animate();
+            }
+            
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            bindEvents() {
+                window.addEventListener('resize', () => this.resizeCanvas());
+                
+                this.canvas.addEventListener('mousemove', (e) => {
+                    this.mouse.x = e.clientX;
+                    this.mouse.y = e.clientY;
+                    
+                    // 添加新像素
+                    for (let i = 0; i < this.interpolate; i++) {
+                        this.pixels.push({
+                            x: this.mouse.x + (Math.random() - 0.5) * this.gridSize,
+                            y: this.mouse.y + (Math.random() - 0.5) * this.gridSize,
+                            age: 0,
+                            opacity: 1
+                        });
+                    }
+                });
+            }
+            
+            animate() {
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // 更新和绘制像素
+                this.pixels = this.pixels.filter(pixel => {
+                    pixel.age += 1;
+                    pixel.opacity = Math.max(0, 1 - (pixel.age / this.maxAge));
+                    
+                    if (pixel.age < this.maxAge) {
+                        this.ctx.save();
+                        
+                        // 设置像素样式
+                        this.ctx.globalAlpha = pixel.opacity;
+                        this.ctx.fillStyle = this.color;
+                        
+                        // 绘制像素
+                        const size = this.trailSize * this.gridSize * pixel.opacity;
+                        this.ctx.beginPath();
+                        this.ctx.arc(pixel.x, pixel.y, size, 0, Math.PI * 2);
+                        this.ctx.fill();
+                        
+                        this.ctx.restore();
+                        return true;
+                    }
+                    return false;
+                });
+                
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        
+        // 初始化
+        const canvas = document.getElementById('pixelCanvas');
+        const pixelTrail = new PixelTrail(canvas, {
+            gridSize: 30,
+            trailSize: 0.08,
+            maxAge: 180,
+            interpolate: 3,
+            color: 'rgba(251, 191, 36, 0.6)'
+        });
+    </script>
+</body>
+</html> 

@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import TwinklingStars from "./TwinklingStars";
 import Moon from "./Moon";
+import PixelTrail from "./PixelTrail";
 
 interface IntroductionProps {
   onContinue?: () => void;
@@ -36,6 +37,18 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen text-center p-6 relative">
+      {/* 页面特定的鼠标轨迹效果 */}
+      <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 5 }}>
+        <PixelTrail
+          gridSize={40}
+          trailSize={0.12}
+          maxAge={200}
+          interpolate={4}
+          color="rgba(254, 243, 199, 0.4)"
+          gooeyFilter={{ id: "intro-trail-filter", strength: 2 }}
+        />
+      </div>
+
       {/* We're removing the TwinklingStars and background gradient as that's now handled by ConsistentBackground */}
       
       <div className="flex flex-col items-center mb-6 z-10">

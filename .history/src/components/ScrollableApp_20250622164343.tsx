@@ -4,7 +4,7 @@ import { useAuth } from '@/hooks/useAuth'
 import Introduction from './Introduction'
 import CycleInfo from './CycleInfo'
 import PersonalCycle from './PersonalCycle'
-import MoonCursor from './MoonCursor'
+import PixelTrail from './PixelTrail'
 
 // 滚动式 HERHZZZ 应用组件
 const ScrollableApp: React.FC = () => {
@@ -32,8 +32,25 @@ const ScrollableApp: React.FC = () => {
 
   return (
     <div className="min-h-screen relative">
-      {/* 月亮光标 */}
-      <MoonCursor />
+      {/* 全局鼠标轨迹效果 */}
+      <div style={{ 
+        position: 'fixed', 
+        top: 0, 
+        left: 0, 
+        width: '100vw', 
+        height: '100vh', 
+        pointerEvents: 'none', 
+        zIndex: 1 
+      }}>
+        <PixelTrail
+          gridSize={18}
+          trailSize={0.25}
+          maxAge={140}
+          interpolate={3}
+          color="rgba(251, 191, 36, 0.5)"
+          gooeyFilter={{ id: "herhzzz-trail-filter", strength: 1.8 }}
+        />
+      </div>
 
       {/* 固定顶部导航 */}
       <nav className="fixed top-0 left-0 right-0 z-50 backdrop-blur-md bg-black/20 border-b border-white/10">
@@ -41,25 +58,25 @@ const ScrollableApp: React.FC = () => {
           <div className="flex items-center justify-between">
             {/* 左侧：应用标题和快速导航 */}
             <div className="flex items-center space-x-6">
-              <h1 className="text-base font-bold tracking-wider text-white">
+              <h1 className="text-xl font-bold text-white tracking-wider">
                 HERHZZZ
               </h1>
               <div className="hidden md:flex space-x-4">
                 <button
                   onClick={() => scrollToSection('introduction')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-sm transition-colors text-white/70 hover:text-white hover:bg-white/10"
                 >
                   月下序言
                 </button>
                 <button
                   onClick={() => scrollToSection('cycle-info')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-sm transition-colors text-white/70 hover:text-white hover:bg-white/10"
                 >
                   生理月律
                 </button>
                 <button
                   onClick={() => scrollToSection('personal-cycle')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-sm transition-colors text-white/70 hover:text-white hover:bg-white/10"
                 >
                   我的周期
                 </button>

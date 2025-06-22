@@ -11,23 +11,6 @@
   font-display: swap; /* 优化字体加载性能 */
 }
 
-/* Fancy Me 字体定义 */
-@font-face {
-  font-family: 'TrueLove';
-  src: url('/fonts/TrueLove-3.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'TrueLove';
-  src: url('/fonts/TrueLove-bold-2.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -57,36 +40,32 @@
     letter-spacing: 0.02em;
   }
   
-  /* 添加Fancy Me字体类 */
-  .font-fancy {
-    font-family: 'TrueLove', cursive, serif;
-    font-weight: normal;
-    font-style: normal;
-    letter-spacing: 0.05em;
-  }
-  
   /* 月亮光泽效果 */
   .moon-glow {
     color: #fef3c7; /* 淡黄色基础色 */
     text-shadow: 
-      0 0 8px rgba(251, 191, 36, 0.3),    /* 内层淡金黄光晕 */
-      0 0 16px rgba(251, 191, 36, 0.2),   /* 中层更淡的光晕 */
-      0 0 24px rgba(251, 191, 36, 0.1);   /* 外层极淡的光晕 */
-    animation: moon-shimmer 4s ease-in-out infinite;
+      0 0 10px #fbbf24,    /* 内层金黄色光晕 */
+      0 0 20px #f59e0b,    /* 中层橙黄色光晕 */
+      0 0 30px #d97706,    /* 外层深橙色光晕 */
+      0 0 40px #b45309;    /* 最外层棕橙色光晕 */
+    animation: moon-shimmer 3s ease-in-out infinite;
   }
   
   @keyframes moon-shimmer {
     0%, 100% {
       text-shadow: 
-        0 0 8px rgba(251, 191, 36, 0.3),
-        0 0 16px rgba(251, 191, 36, 0.2),
-        0 0 24px rgba(251, 191, 36, 0.1);
+        0 0 10px #fbbf24,
+        0 0 20px #f59e0b,
+        0 0 30px #d97706,
+        0 0 40px #b45309;
     }
     50% {
       text-shadow: 
-        0 0 12px rgba(251, 191, 36, 0.4),
-        0 0 20px rgba(251, 191, 36, 0.25),
-        0 0 28px rgba(251, 191, 36, 0.15);
+        0 0 15px #fbbf24,
+        0 0 25px #f59e0b,
+        0 0 35px #d97706,
+        0 0 45px #b45309,
+        0 0 55px #92400e;
     }
   }
 }

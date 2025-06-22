@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import TwinklingStars from "./TwinklingStars";
 import Moon from "./Moon";
+import PixelTrail from "./PixelTrail";
 
 interface IntroductionProps {
   onContinue?: () => void;

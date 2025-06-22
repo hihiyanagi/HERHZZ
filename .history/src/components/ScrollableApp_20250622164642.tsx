@@ -41,25 +41,25 @@ const ScrollableApp: React.FC = () => {
           <div className="flex items-center justify-between">
             {/* 左侧：应用标题和快速导航 */}
             <div className="flex items-center space-x-6">
-              <h1 className="text-base font-bold tracking-wider text-white">
+              <h1 className="text-xl font-bold text-white tracking-wider">
                 HERHZZZ
               </h1>
               <div className="hidden md:flex space-x-4">
                 <button
                   onClick={() => scrollToSection('introduction')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-sm transition-colors text-white/70 hover:text-white hover:bg-white/10"
                 >
                   月下序言
                 </button>
                 <button
                   onClick={() => scrollToSection('cycle-info')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-sm transition-colors text-white/70 hover:text-white hover:bg-white/10"
                 >
                   生理月律
                 </button>
                 <button
                   onClick={() => scrollToSection('personal-cycle')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-sm transition-colors text-white/70 hover:text-white hover:bg-white/10"
                 >
                   我的周期
                 </button>

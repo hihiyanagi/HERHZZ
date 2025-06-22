@@ -21,7 +21,6 @@ export default {
 			fontFamily: {
 				'biaoxiao': ['BiaoXiaoZhiWuJie', 'sans-serif'],
 				'playfair': ['Playfair Display', 'serif'],
-				'fancy': ['TrueLove', 'cursive', 'serif'],
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

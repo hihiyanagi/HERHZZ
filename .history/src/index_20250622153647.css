@@ -11,23 +11,6 @@
   font-display: swap; /* 优化字体加载性能 */
 }
 
-/* Fancy Me 字体定义 */
-@font-face {
-  font-family: 'TrueLove';
-  src: url('/fonts/TrueLove-3.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'TrueLove';
-  src: url('/fonts/TrueLove-bold-2.ttf') format('truetype');
-  font-weight: bold;
-  font-style: normal;
-  font-display: swap;
-}
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -55,14 +38,6 @@
     font-weight: normal;
     font-style: normal;
     letter-spacing: 0.02em;
-  }
-  
-  /* 添加Fancy Me字体类 */
-  .font-fancy {
-    font-family: 'TrueLove', cursive, serif;
-    font-weight: normal;
-    font-style: normal;
-    letter-spacing: 0.05em;
   }
   
   /* 月亮光泽效果 */

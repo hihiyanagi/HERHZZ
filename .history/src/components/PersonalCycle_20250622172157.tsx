@@ -241,7 +241,7 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
       <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
         {!hasSubmitted ? (
           <div className="max-w-md mx-auto">
-            <h2 className="text-4xl md:text-6xl font-biaoxiao moon-glow text-center mb-8 animate-float tracking-wide">
+            <h2 className="text-4xl md:text-6xl font-biaoxiao moon-glow text-center mb-8 animate-float tracking-wide text-white/90">
               输入你的周期
             </h2>
             

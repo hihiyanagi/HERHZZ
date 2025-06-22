@@ -39,7 +39,7 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
       {/* We're removing the TwinklingStars and background gradient as that's now handled by ConsistentBackground */}
       
       <div className="flex flex-col items-center mb-6 z-10">
-        <h2 className="text-4xl md:text-6xl font-fancy moon-glow tracking-wider animate-title">
+        <h2 className="text-5xl font-playfair text-white tracking-wider animate-title">
           HERHZZZ
         </h2>
       </div>

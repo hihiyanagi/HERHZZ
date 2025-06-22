@@ -17,10 +17,8 @@ const ConsistentBackground: React.FC<ConsistentBackgroundProps> = ({ children })
         style={{
           background: `linear-gradient(to bottom, 
             #3336FF, /* Deep blue (top) */
-            #3B3CFF, /* Deep blue+ */
             #4242FF, /* Blue */
             #504EFE, /* Blue-purple */
-            #5E5AFD, /* Purple-blue+ */
             #6C65FC, /* Purple-blue */
             #897DFB, /* Light purple */
             #A594F9  /* Light purple-pink (bottom) */

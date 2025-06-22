@@ -241,7 +241,7 @@ const PersonalCycle = ({ onReset }: PersonalCycleProps) => {
       <div className={`relative z-10 ${!hasSubmitted ? 'pt-8' : ''}`}>
         {!hasSubmitted ? (
           <div className="max-w-md mx-auto">
-            <h2 className="text-4xl md:text-6xl font-biaoxiao moon-glow text-center mb-8 animate-float tracking-wide">
+            <h2 className="text-3xl md:text-4xl font-biaoxiao text-white text-center mb-8 animate-float tracking-wide">
               输入你的周期
             </h2>
             
@@ -349,7 +349,7 @@ VITE_SUPABASE_ANON_KEY=你的匿名密钥
             
             {currentPhase && (
               <>
-                <h2 className="text-4xl md:text-6xl font-biaoxiao moon-glow text-center mb-6 animate-float tracking-wide">
+                <h2 className="text-3xl md:text-4xl font-bold text-white text-center mb-6 animate-float tracking-wide">
                   {currentPhase === "menstrual" && "月经期"}
                   {currentPhase === "follicular" && "卵泡期"}
                   {currentPhase === "ovulation" && "排卵期"}

@@ -41,25 +41,52 @@ const ScrollableApp: React.FC = () => {
           <div className="flex items-center justify-between">
             {/* 左侧：应用标题和快速导航 */}
             <div className="flex items-center space-x-6">
-              <h1 className="text-base font-bold tracking-wider text-white">
+              <h1 className="text-base font-bold tracking-wider" style={{ color: 'rgba(244, 114, 182, 1)' }}>
                 HERHZZZ
               </h1>
               <div className="hidden md:flex space-x-4">
                 <button
                   onClick={() => scrollToSection('introduction')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10"
+                  style={{ 
+                    color: 'rgba(236, 72, 153, 0.8)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'rgba(244, 114, 182, 1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'rgba(236, 72, 153, 0.8)';
+                  }}
                 >
                   月下序言
                 </button>
                 <button
                   onClick={() => scrollToSection('cycle-info')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10"
+                  style={{ 
+                    color: 'rgba(236, 72, 153, 0.8)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'rgba(244, 114, 182, 1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'rgba(236, 72, 153, 0.8)';
+                  }}
                 >
                   生理月律
                 </button>
                 <button
                   onClick={() => scrollToSection('personal-cycle')}
-                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10 text-white/80 hover:text-white"
+                  className="px-3 py-1 rounded-md text-base font-medium transition-colors hover:bg-white/10"
+                  style={{ 
+                    color: 'rgba(236, 72, 153, 0.8)',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.color = 'rgba(244, 114, 182, 1)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.color = 'rgba(236, 72, 153, 0.8)';
+                  }}
                 >
                   我的周期
                 </button>

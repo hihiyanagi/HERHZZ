@@ -39,7 +39,7 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
       {/* We're removing the TwinklingStars and background gradient as that's now handled by ConsistentBackground */}
       
       <div className="flex flex-col items-center mb-6 z-10">
-        <h2 className="text-4xl md:text-6xl font-fancy moon-glow tracking-wider animate-title">
+        <h2 className="text-5xl font-playfair text-white tracking-wider animate-title">
           HERHZZZ
         </h2>
       </div>
@@ -48,7 +48,7 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
         <Moon size={180} moonColorScheme="warm" />
       </div>
       
-      <h3 className="text-4xl md:text-6xl font-biaoxiao moon-glow mb-12 z-10 text-center animate-float tracking-wide">
+      <h3 className="text-3xl md:text-4xl font-biaoxiao text-white mb-12 z-10 text-center animate-float tracking-wide">
         女性，睡眠，月亮
       </h3>
       

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>鼠标轨迹测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+            cursor: crosshair;
+        }
+        
+        #canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            pointer-events: none;
+        }
+        
+        .content {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 20px rgba(251, 191, 36, 0.5);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    
+    <div class="content">
+        <h1>HERHZZZ 月光轨迹</h1>
+        <p>移动鼠标查看月光轨迹效果 ✨</p>
+        <p style="font-size: 0.9rem; margin-top: 2rem; opacity: 0.6;">
+            如果您能看到金黄色的轨迹跟随鼠标，说明效果正常工作
+        </p>
+    </div>
+
+    <script>
+        console.log('轨迹测试页面开始加载...');
+        
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        
+        // 轨迹参数
+        const config = {
+            gridSize: 12,
+            trailSize: 0.15,
+            maxAge: 120,
+            interpolate: 4,
+            color: 'rgba(251, 191, 36, 0.9)'
+        };
+        
+        let pixels = [];
+        let animationId;
+        
+        // 设置canvas尺寸
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            console.log(`Canvas尺寸: ${canvas.width} x ${canvas.height}`);
+        }
+        
+        // 初始化
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        
+        // 鼠标移动事件
+        document.addEventListener('mousemove', (e) => {
+            console.log(`鼠标位置: ${e.clientX}, ${e.clientY}`);
+            
+            // 添加新像素 - 使用正态分布让粒子更集中在中心
+            for (let i = 0; i < config.interpolate; i++) {
+                // 生成更集中的随机分布
+                const angle = Math.random() * Math.PI * 2;
+                const distance = (Math.random() * 0.5 + Math.random() * 0.5) * config.gridSize * 0.5;
+                
+                pixels.push({
+                    x: e.clientX + Math.cos(angle) * distance,
+                    y: e.clientY + Math.sin(angle) * distance,
+                    age: 0,
+                    opacity: 1
+                });
+            }
+        });
+        
+        // 动画循环
+        function animate() {
+            // 清除画布
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            // 更新和绘制像素
+            pixels = pixels.filter(pixel => {
+                pixel.age += 1;
+                pixel.opacity = Math.max(0, 1 - (pixel.age / config.maxAge));
+                
+                if (pixel.age < config.maxAge) {
+                    ctx.save();
+                    
+                    // 设置像素样式
+                    ctx.globalAlpha = pixel.opacity;
+                    ctx.fillStyle = config.color;
+                    
+                    // 绘制像素
+                    const size = config.trailSize * config.gridSize * pixel.opacity;
+                    ctx.beginPath();
+                    ctx.arc(pixel.x, pixel.y, size, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    ctx.restore();
+                    return true;
+                }
+                return false;
+            });
+            
+            animationId = requestAnimationFrame(animate);
+        }
+        
+        // 开始动画
+        animate();
+        console.log('轨迹动画已启动');
+        
+        // 添加调试信息
+        setInterval(() => {
+            console.log(`当前像素数量: ${pixels.length}`);
+        }, 2000);
+    </script>
+</body>
+</html> 

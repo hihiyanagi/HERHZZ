@@ -48,7 +48,7 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
         <Moon size={180} moonColorScheme="warm" />
       </div>
       
-      <h3 className="text-4xl md:text-6xl font-biaoxiao moon-glow mb-12 z-10 text-center animate-float tracking-wide">
+      <h3 className="text-4xl md:text-6xl font-biaoxiao moon-glow mb-12 z-10 text-center animate-float tracking-wide text-white/90">
         女性，睡眠，月亮
       </h3>
       

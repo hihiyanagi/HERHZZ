@@ -77,7 +77,7 @@ const CycleInfo = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
-      <h2 className="text-4xl md:text-6xl font-biaoxiao moon-glow text-center mb-12 animate-float tracking-wide">
+      <h2 className="text-3xl md:text-4xl font-biaoxiao text-center mb-12 text-white animate-float tracking-wide">
         你的周期，你的睡眠声音
       </h2>
 
