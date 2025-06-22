@@ -31,8 +31,8 @@ function App() {
       {!isAuthenticated && (
         <div className="py-8">
           <div className="container mx-auto px-4 max-w-4xl text-center">
-            <h1 className="text-4xl md:text-6xl font-fancy moon-glow tracking-wider animate-title mb-4">
-              HERHZZZ
+            <h1 className="text-3xl font-bold text-white mb-4">
+              欢迎使用 HERHZZZ
             </h1>
             <p className="text-gray-200 mb-8">
               专为女性周期设计的睡眠白噪音平台，登录或注册开始旅程。
