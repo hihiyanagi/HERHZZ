@@ -64,22 +64,6 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
   // 移动端检测
   const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768;
 
-  // 移动端优化的圆形样式
-  const mobileOptimizedCircleStyle = {
-    // 强制抗锯齿渲染
-    WebkitFontSmoothing: 'antialiased',
-    MozOsxFontSmoothing: 'grayscale',
-    // 优化图形渲染
-    imageRendering: 'crisp-edges' as const,
-    // 强制使用高质量渲染
-    WebkitTransform: 'translateZ(0)',
-    transform: 'translateZ(0)',
-    // 确保完美圆角
-    borderRadius: '50%',
-    // 添加细微的边框来改善边缘渲染
-    border: '0.5px solid rgba(255, 255, 255, 0.1)',
-  };
-
   return (
     <div 
       className="relative flex items-center justify-center animate-float moon-container"
@@ -107,10 +91,6 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
           border: 'none',
           WebkitTapHighlightColor: 'transparent',
           // 移除blur效果，在移动端可能导致边界显示
-          ...(isMobile ? {
-            WebkitFontSmoothing: 'antialiased',
-            borderRadius: '50%',
-          } : {})
         }}
       />
       
@@ -121,24 +101,19 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
           width: `${size}px`,
           height: `${size}px`,
           background: moonColorScheme === "warm" ? yellowGradient : "#20202c",
-          // 统一阴影效果，不再区分移动端和桌面端  
+          // 统一阴影效果，不再区分移动端和桌面端
           boxShadow: '0 0 20px rgba(255, 245, 160, 0.18), inset 0 0 30px rgba(255, 255, 255, 0.08)',
           outline: 'none',
           border: 'none',
           WebkitTapHighlightColor: 'transparent',
           // 移除translateZ(0)，避免创建硬件加速层边界
-          // 移动端特殊优化
-          ...(isMobile ? mobileOptimizedCircleStyle : {})
         }}
       >
         {/* 轻微旋转的容器 */}
         <div className="w-full h-full relative" 
           style={{ 
             transform: `rotate(${rotationAngle}deg)`,
-            transition: 'transform 0.5s ease-out',
-            // 确保旋转容器也是完美圆形
-            borderRadius: '50%',
-            overflow: 'hidden'
+            transition: 'transform 0.5s ease-out'
           }}>
           {/* 月球内部星星 */}
           <TwinklingStars count={15} starColors={moonStarColors} />
@@ -149,16 +124,13 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
             style={{
               backgroundImage: moonColorScheme === "warm" 
                 ? "radial-gradient(circle at 30% 30%, transparent 30%, rgba(254, 250, 113, 0.4) 70%)"
-                : "radial-gradient(circle, transparent, rgba(32, 32, 44, 0.8))",
-              borderRadius: '50%'
+                : "radial-gradient(circle, transparent, rgba(32, 32, 44, 0.8))"
             }}
           ></div>
           
           {/* 为温暖色调添加动态光效 */}
           {moonColorScheme === "warm" && (
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#FFE566]/20 to-transparent animate-pulse"
-              style={{ borderRadius: '50%' }}
-            ></div>
+            <div className="absolute inset-0 bg-gradient-to-tr from-[#FFE566]/20 to-transparent animate-pulse"></div>
           )}
           
           {/* 添加月球表面纹理 - 简化版本 */}
@@ -168,7 +140,6 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
               backgroundImage: `url("${cratersURL}")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
-              borderRadius: '50%'
             }}
           ></div>
           
@@ -178,15 +149,12 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
             style={{
               backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.65\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E")',
               backgroundSize: 'cover',
-              borderRadius: '50%'
             }}
           ></div>
         </div>
         
         {/* 月球表面特征 - 静态层不旋转 - 摩登简约风格 */}
-        <div className="absolute inset-0 opacity-40 mix-blend-overlay"
-          style={{ borderRadius: '50%' }}
-        >
+        <div className="absolute inset-0 opacity-40 mix-blend-overlay">
           {moonColorScheme === "warm" && (
             <>
               {/* 月球环形山和碰撞坑 - 简洁现代风格 */}
@@ -206,8 +174,7 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
         <div 
           className="absolute inset-0 mix-blend-multiply"
           style={{
-            background: 'radial-gradient(circle at 30% 30%, transparent 20%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0.2) 100%)',
-            borderRadius: '50%'
+            background: 'radial-gradient(circle at 30% 30%, transparent 20%, rgba(0,0,0,0.05) 50%, rgba(0,0,0,0.15) 80%, rgba(0,0,0,0.2) 100%)'
           }}
         ></div>
         
@@ -215,16 +182,14 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
         <div 
           className="absolute inset-0 mix-blend-screen"
           style={{
-            background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 5%, rgba(255,255,255,0.1) 20%, transparent 50%)',
-            borderRadius: '50%'
+            background: 'radial-gradient(circle at 30% 30%, rgba(255,255,255,0.4) 5%, rgba(255,255,255,0.1) 20%, transparent 50%)'
           }}
         ></div>
         
         {/* 添加边缘阴影，增强球形感 */}
         <div className="absolute inset-0 rounded-full"
           style={{
-            boxShadow: 'inset 0px 0px 20px 10px rgba(0,0,0,0.15)',
-            borderRadius: '50%'
+            boxShadow: 'inset 0px 0px 20px 10px rgba(0,0,0,0.15)'
           }}
         ></div>
       </div>
