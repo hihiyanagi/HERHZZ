@@ -39,6 +39,27 @@
   
   body {
     min-height: 100vh;
+    /* 移动端优化 - 防止动画元素显示边界框 */
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none;
+  }
+
+  /* 移动端动画优化 */
+  @media (max-width: 768px) {
+    * {
+      -webkit-transform: translateZ(0);
+      transform: translateZ(0);
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+    }
+    
+    /* 特别针对动画元素的修复 */
+    .animate-float,
+    [class*="animate-"] {
+      outline: none !important;
+      border: none !important;
+      -webkit-tap-highlight-color: transparent !important;
+    }
   }
   
   /* 添加Playfair România字体类 */
