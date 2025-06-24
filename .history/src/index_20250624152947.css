@@ -281,29 +281,4 @@
   body {
     @apply text-foreground;
   }
-
-  /* 移动端专用的月亮容器优化 */
-  @media (max-width: 768px) {
-    .moon-container {
-      /* 移动端兼容性修复 - 防止显示边界框 */
-      -webkit-transform: translateZ(0) !important;
-      transform: translateZ(0) !important;
-      -webkit-backface-visibility: hidden !important;
-      backface-visibility: hidden !important;
-      outline: none !important;
-      border: none !important;
-      /* 为浮动动画预留空间，只在移动端 */
-      padding: 15px !important;
-      margin: 0 auto !important;
-      -webkit-tap-highlight-color: transparent !important;
-    }
-    
-    /* 特别针对动画元素的修复 */
-    .animate-float,
-    [class*="animate-"] {
-      outline: none !important;
-      border: none !important;
-      -webkit-tap-highlight-color: transparent !important;
-    }
-  }
 }

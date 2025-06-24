@@ -62,7 +62,7 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
   const cratersURL = `data:image/svg+xml,${encodeURIComponent(cratersSVG)}`;
   
   return (
-    <div className="relative flex items-center justify-center animate-float">
+    <div className="relative flex items-center justify-center animate-float moon-container">
       {/* 外部光晕效果 - 减小光晕范围 */}
       <div 
         className={`absolute rounded-full bg-gradient-to-r ${glowColors.from} ${glowColors.to} blur-lg animate-pulse`}
@@ -79,7 +79,7 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
           width: `${size}px`,
           height: `${size}px`,
           background: moonColorScheme === "warm" ? yellowGradient : "#20202c",
-          boxShadow: '0 0 30px rgba(255, 245, 160, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.1)'
+          boxShadow: '0 0 30px rgba(255, 245, 160, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.1)',
         }}
       >
         {/* 轻微旋转的容器 */}

@@ -83,6 +83,8 @@
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   will-change: transform;
+  outline: none !important;
+  border: none !important;
 }
 
 .animate-pulse-soft {
