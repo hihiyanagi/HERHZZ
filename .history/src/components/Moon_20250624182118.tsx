@@ -101,12 +101,8 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
           width: `${size * 1.2}px`,
           height: `${size * 1.2}px`,
           background: moonColorScheme === "warm" 
-            ? (isMobile 
-                ? `radial-gradient(circle, rgba(254, 250, 113, 0.2) 0%, rgba(255, 229, 102, 0.1) 40%, transparent 70%)`
-                : `radial-gradient(circle, rgba(254, 250, 113, 0.4) 0%, rgba(255, 229, 102, 0.25) 40%, transparent 70%)`)
-            : (isMobile
-                ? `radial-gradient(circle, rgba(140, 125, 177, 0.1) 0%, rgba(163, 149, 201, 0.05) 40%, transparent 70%)`
-                : `radial-gradient(circle, rgba(140, 125, 177, 0.25) 0%, rgba(163, 149, 201, 0.15) 40%, transparent 70%)`),
+            ? `radial-gradient(circle, rgba(254, 250, 113, 0.4) 0%, rgba(255, 229, 102, 0.25) 40%, transparent 70%)`
+            : `radial-gradient(circle, rgba(140, 125, 177, 0.25) 0%, rgba(163, 149, 201, 0.15) 40%, transparent 70%)`,
           outline: 'none',
           border: 'none',
           WebkitTapHighlightColor: 'transparent',

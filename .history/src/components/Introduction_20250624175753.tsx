@@ -53,7 +53,7 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
       </h3>
       
       <div ref={textRef} className="max-w-2xl text-white mb-10 z-10">
-        <div className="fade-in-section p-4 md:p-8 rounded-lg backdrop-blur-sm leading-loose bg-white/5">
+        <div className="fade-in-section space-y-8 p-4 md:p-8 rounded-lg backdrop-blur-sm leading-loose bg-white/5">
           {/* 移动端布局 */}
           <div className="block md:hidden space-y-8">
             <div className="space-y-1">
@@ -81,21 +81,21 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
           </div>
 
           {/* 桌面端布局 */}
-          <div className="hidden md:block">
+          <div className="hidden md:block space-y-8">
             <div className="space-y-2">
               <p className="text-lg">有些夜晚，我们会突然失眠，翻来覆去找不到原因。</p>
               <p className="text-lg">但其实，我们的身体并没有出错，</p>
               <p className="text-lg">它只是像月亮一样，在进行一场悄无声息的变化。</p>
             </div>
 
-            <div className="space-y-2 mt-8">
+            <div className="space-y-2">
               <p className="text-lg">月经的潮汐、情绪的涨落、睡眠的深浅，</p>
               <p className="text-lg">都是我们身体与自然之间的共鸣。</p>
               <p className="text-lg">所以，当你发现自己睡不着，不必焦虑或责备。</p>
               <p className="text-lg">你正在经历的，只是你自己的"月亮"时刻。</p>
             </div>
 
-            <div className="space-y-2 mt-8">
+            <div className="space-y-2">
               <p className="text-lg">你不是孤单的。</p>
               <p className="text-lg">月亮在我们的身体里，我们必定好梦。</p>
               <p className="text-lg">这是一款专为女性周期设计的白噪音工具，</p>

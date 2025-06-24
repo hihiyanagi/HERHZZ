@@ -53,7 +53,7 @@ const Introduction = ({ onContinue }: IntroductionProps) => {
       </h3>
       
       <div ref={textRef} className="max-w-2xl text-white mb-10 z-10">
-        <div className="fade-in-section p-4 md:p-8 rounded-lg backdrop-blur-sm leading-loose bg-white/5">
+        <div className="fade-in-section space-y-8 p-4 md:p-8 rounded-lg backdrop-blur-sm leading-loose bg-white/5">
           {/* 移动端布局 */}
           <div className="block md:hidden space-y-8">
             <div className="space-y-1">
