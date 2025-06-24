@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HerHzzz - 女性周期白噪音</title>
+    <meta name="description" content="第一款专为女性周期设计的睡眠白噪音工具" />
+    <meta name="author" content="Lovable" />
+
+    <!-- 字体预加载 - 优先加载关键字体文件 -->
+    <link rel="preload" href="/fonts/LogoSCUnboundedSans-Regular-2.ttf" as="font" type="font/truetype" crossorigin="anonymous">
+    <link rel="preload" href="/fonts/TrueLove-3.ttf" as="font" type="font/truetype" crossorigin="anonymous">
+    
+    <!-- 字体加载检测脚本 - 在CSS加载前运行 -->
+    <script>
+      // 字体加载管理器 - 避免FOUT问题
+      (function() {
+        // 添加字体加载状态类
+        document.documentElement.classList.add('font-loading');
+        
+        // 检测字体是否加载完成
+        if ('fontDisplay' in document.documentElement.style) {
+          // 支持font-display的现代浏览器
+          if (document.fonts && document.fonts.ready) {
+            document.fonts.ready.then(function() {
+              document.documentElement.classList.remove('font-loading');
+              document.documentElement.classList.add('font-loaded');
+              console.log('✅ 所有字体加载完成');
+            });
+          }
+        } else {
+          // 兼容旧浏览器
+          setTimeout(function() {
+            document.documentElement.classList.remove('font-loading');
+            document.documentElement.classList.add('font-loaded');
+          }, 100);
+        }
+        
+        // 备用方案：3秒后强制显示，避免内容一直隐藏
+        setTimeout(function() {
+          if (document.documentElement.classList.contains('font-loading')) {
+            document.documentElement.classList.remove('font-loading');
+            document.documentElement.classList.add('font-loaded');
+            console.log('⚠️ 字体加载超时，使用备用字体');
+          }
+        }, 3000);
+      })();
+    </script>
+
+    <meta property="og:title" content="her-moon-whispers" />
+    <meta property="og:description" content="Lovable Generated Project" />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

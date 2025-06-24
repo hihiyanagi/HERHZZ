@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Moon, Cloud, Music, Waves, Sun, Stars } from 'lucide-react';
 import { LucideIcon } from 'lucide-react';
 import { cn } from "@/lib/utils";
@@ -24,6 +24,18 @@ interface CycleData {
 
 const CycleInfo = () => {
   const [activeTab, setActiveTab] = useState<string>('menstrual');
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+  
+  // 字体加载检测
+  useEffect(() => {
+    if (document.fonts && document.fonts.ready) {
+      document.fonts.ready.then(() => {
+        setFontsLoaded(true);
+      });
+    } else {
+      setTimeout(() => setFontsLoaded(true), 500);
+    }
+  }, []);
 
   const cycleData: CycleData = {
     menstrual: {
@@ -78,7 +90,11 @@ const CycleInfo = () => {
 
   return (
     <div className="w-full max-w-4xl mx-auto p-6">
-      <h2 className="text-4xl md:text-6xl font-biaoxiao moon-glow text-center mb-12 animate-float tracking-wide">
+      <h2 className={cn(
+        "text-4xl md:text-6xl font-biaoxiao moon-glow text-center mb-12 animate-float tracking-wide",
+        "transition-all duration-500 ease-out transform",
+        fontsLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
+      )}>
         你的周期，你的睡眠声音
       </h2>
 

@@ -41,7 +41,19 @@
     min-height: 100vh;
   }
   
-
+  /* 字体加载优化 - 预加载关键字体 */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+  
+  /* 添加字体加载状态管理 */
+  .font-loading {
+    visibility: hidden;
+  }
+  
+  .font-loaded .font-loading {
+    visibility: visible;
+  }
   
   /* 添加Playfair România字体类 */
   .font-playfair {
@@ -61,8 +73,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    /* 简单的FOUT减少 - 不影响动画 */
-    font-synthesis: none;
   }
   
   /* 添加Fancy Me字体类 - 同样优化 */
@@ -73,7 +83,6 @@
     letter-spacing: 0.05em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-synthesis: none;
   }
   
   /* 月亮光泽效果 */

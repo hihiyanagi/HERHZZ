@@ -61,8 +61,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    /* 简单的FOUT减少 - 不影响动画 */
-    font-synthesis: none;
   }
   
   /* 添加Fancy Me字体类 - 同样优化 */
@@ -73,7 +71,6 @@
     letter-spacing: 0.05em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-synthesis: none;
   }
   
   /* 月亮光泽效果 */

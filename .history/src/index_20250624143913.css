@@ -2,22 +2,23 @@
 @import './components/ui/keyframes.css';
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 
-/* 自定义字体定义 - 优化加载但确保显示 */
+/* 字体预加载和优化 */
+/* 自定义字体定义 - 使用优化的加载策略 */
 @font-face {
   font-family: 'BiaoXiaoZhiWuJie';
   src: url('/fonts/LogoSCUnboundedSans-Regular-2.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap; /* 保持swap，允许字体切换但确保文字可见 */
+  font-display: optional; /* 如果字体没有及时加载，使用备用字体 */
 }
 
-/* Fancy Me 字体定义 */
+/* Fancy Me 字体定义 - 同样优化 */
 @font-face {
   font-family: 'TrueLove';
   src: url('/fonts/TrueLove-3.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 @font-face {
@@ -25,7 +26,7 @@
   src: url('/fonts/TrueLove-bold-2.ttf') format('truetype');
   font-weight: bold;
   font-style: normal;
-  font-display: swap;
+  font-display: optional;
 }
 
 @tailwind base;
@@ -41,7 +42,19 @@
     min-height: 100vh;
   }
   
-
+  /* 字体加载优化 - 预加载关键字体 */
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+  }
+  
+  /* 添加字体加载状态管理 */
+  .font-loading {
+    visibility: hidden;
+  }
+  
+  .font-loaded .font-loading {
+    visibility: visible;
+  }
   
   /* 添加Playfair România字体类 */
   .font-playfair {
@@ -61,8 +74,6 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     text-rendering: optimizeLegibility;
-    /* 简单的FOUT减少 - 不影响动画 */
-    font-synthesis: none;
   }
   
   /* 添加Fancy Me字体类 - 同样优化 */
@@ -73,7 +84,6 @@
     letter-spacing: 0.05em;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-synthesis: none;
   }
   
   /* 月亮光泽效果 */
