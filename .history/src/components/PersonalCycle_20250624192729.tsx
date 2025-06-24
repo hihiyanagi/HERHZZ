@@ -440,19 +440,9 @@ VITE_SUPABASE_ANON_KEY=你的匿名密钥
                   
                   <h3 className="text-xl font-semibold text-white mb-4 text-left">梦境引导语</h3>
                   <div className="rounded-lg p-4 bg-white/5">
-                    {/* 移动端版本 - 使用断行版本 */}
-                    <div className="block md:hidden">
-                      {phaseGuides[currentPhase].guideText.map((line, index) => (
-                        <p key={index} className="text-sm text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
-                      ))}
-                    </div>
-                    
-                    {/* 桌面端版本 - 使用GitHub最新版本 */}
-                    <div className="hidden md:block">
-                      {(phaseGuides[currentPhase].desktopGuideText || phaseGuides[currentPhase].guideText).map((line, index) => (
-                        <p key={index} className="text-base text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
-                      ))}
-                    </div>
+                    {phaseGuides[currentPhase].guideText.map((line, index) => (
+                      <p key={index} className="text-sm md:text-base text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
+                    ))}
                   </div>
                 </div>
               </>

@@ -25,7 +25,6 @@ interface PhaseGuideText {
   phase: CyclePhase;
   sounds: { name: string; audioSrc: string }[];
   guideText: string[];
-  desktopGuideText?: string[]; // 桌面端专用的梦境引导语
 }
 
 const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
@@ -36,7 +35,6 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       { name: "🎵 星际睡龙", audioSrc: "/audio/xingji_shuilong.mp3" },
       { name: "🎵 银河风琴", audioSrc: "/audio/yinhe_fengqin.mp3" }
     ],
-    // 移动端版本（当前的断行）
     guideText: [
       "闭上眼睛，让整个人慢下来。",
       "呼吸轻一点，慢一点。",
@@ -48,16 +46,6 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       "感受这道声音，",
       "它轻轻收缩，又缓缓释放。",
       "就像你在这一夜轻轻地，被抱住。"
-    ],
-    // 桌面端版本（GitHub最新版本）
-    desktopGuideText: [
-      "闭上眼睛，让整个人慢下来。",
-      "呼吸轻一点，慢一点。",
-      "你已经够努力了，允许自己，松一口气。",
-      "想象一个热水袋贴近小腹，",
-      "这不是疼痛的夜晚，这是你为自己守住的一点点安静。",
-      "感受这道声音，它轻轻收缩，又缓缓释放。",
-      "就像你在这一夜轻轻地，被抱住。"
     ]
   },
   follicular: {
@@ -67,11 +55,9 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       { name: "🎵 银光森林", audioSrc: "/audio/yinguang_senlin.mp3" },
       { name: "🎵 粉樱温泉", audioSrc: "/audio/fenying_wenquan.mp3" }
     ],
-    // 移动端版本（当前的断行）
     guideText: [
       "听见了吗？",
-      "有一点点能量，",
-      "在你身体里悄悄冒芽。",
+      "有一点点能量，在你身体里悄悄冒芽。",
       "不急，它不会催你醒来，",
       "只是轻轻地，把你托起。",
       "想象自己泡在月光温泉中，",
@@ -80,19 +66,8 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       "今晚，你不必用力入睡，",
       "睡眠会像森林的雾一样，",
       "自己落下来，",
-      "落在你的额头、睫毛，",
+      "落在你的额头，睫毛，",
       "和你轻柔的心。"
-    ],
-    // 桌面端版本（GitHub最新版本）
-    desktopGuideText: [
-      "听见了吗？有一点点能量，在你身体里悄悄冒芽。",
-      "不急，它不会催你醒来，只是轻轻地，把你托起。",
-      "想象自己泡在月光温泉中，",
-      "身体像一片叶子，慢慢舒展。",
-      "睡意像蒸气一样，慢慢升起。",
-      "今晚，你不必用力入睡，",
-      "睡眠会像森林的雾一样，自己落下来，",
-      "落在你的额头，睫毛，和你轻柔的心。"
     ]
   },
   ovulation: {
@@ -102,7 +77,6 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       { name: "🎵 软眠猫呼", audioSrc: "/audio/xuedi_maobu.mp3" },
       { name: "🎵 爱之频率", audioSrc: "/audio/qiudao_zhiye.mp3" }
     ],
-    // 移动端版本（当前的断行）
     guideText: [
       "有点清醒，也有点敏感。",
       "今天的你，像月夜盛开的花，",
@@ -114,17 +88,6 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       "从尾巴到耳尖，",
       "松一口气，打个小哈欠，",
       "悄无声息地，沉进梦的毛毯里。"
-    ],
-    // 桌面端版本（GitHub最新版本）
-    desktopGuideText: [
-      "有点清醒，也有点敏感。",
-      "今天的你，像月夜盛开的花，",
-      "脆弱、明亮，又那么美。",
-      "让这段声音轻轻地，把你抱起来，",
-      "像一只雪地里的猫，悄悄跳到你胸口，",
-      "用鼻尖蹭你一下，再慢慢卷起身体——",
-      "从尾巴到耳尖，松一口气，打个小哈欠，",
-      "悄无声息地，沉进梦的毛毯里。"
     ]
   },
   luteal: {
@@ -134,7 +97,6 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       { name: "🎵 苔藓蒸汽", audioSrc: "/audio/taixian_zhengqi.mp3" },
       { name: "🎵 夜空寺庙", audioSrc: "/audio/yekong_simiao.mp3" }
     ],
-    // 移动端版本（当前的断行）
     guideText: [
       "今天的你，是否感到一点点疲惫，",
       "却又莫名烦躁？",
@@ -150,16 +112,6 @@ const phaseGuides: Record<CyclePhase, PhaseGuideText> = {
       "只要安住——情绪会自己下沉。",
       "夜色很大，你很小，",
       "沉入夜里成为星星。"
-    ],
-    // 桌面端版本（GitHub最新版本）
-    desktopGuideText: [
-      "今天的你，是否感到一点点疲惫，却又莫名烦躁？",
-      "仿佛身心都在等待什么，却说不出是什么。",
-      "没关系。让声音替你熄灯，替你收拾纷乱的情绪。",
-      "想象自己走进一座寺庙，内心变得禅静。",
-      "每一次呼吸，都是在为你稳住一片内在的湖水。",
-      "不用入睡得多快，只要安住——情绪会自己下沉。",
-      "夜色很大，你很小，沉入夜里成为星星。"
     ]
   }
 };
@@ -440,19 +392,9 @@ VITE_SUPABASE_ANON_KEY=你的匿名密钥
                   
                   <h3 className="text-xl font-semibold text-white mb-4 text-left">梦境引导语</h3>
                   <div className="rounded-lg p-4 bg-white/5">
-                    {/* 移动端版本 - 使用断行版本 */}
-                    <div className="block md:hidden">
-                      {phaseGuides[currentPhase].guideText.map((line, index) => (
-                        <p key={index} className="text-sm text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
-                      ))}
-                    </div>
-                    
-                    {/* 桌面端版本 - 使用GitHub最新版本 */}
-                    <div className="hidden md:block">
-                      {(phaseGuides[currentPhase].desktopGuideText || phaseGuides[currentPhase].guideText).map((line, index) => (
-                        <p key={index} className="text-base text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
-                      ))}
-                    </div>
+                    {phaseGuides[currentPhase].guideText.map((line, index) => (
+                      <p key={index} className="text-sm md:text-base text-white mb-2" style={{ animationDelay: `${0.5 + index * 0.1}s` }}>{line}</p>
+                    ))}
                   </div>
                 </div>
               </>
