@@ -66,7 +66,7 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
 
   return (
     <div 
-      className="relative flex items-center justify-center animate-float moon-container"
+      className="relative flex items-center justify-center animate-float"
       style={isMobile ? {
         WebkitTapHighlightColor: 'transparent',
         WebkitTouchCallout: 'none',
@@ -77,37 +77,23 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
         WebkitTransform: 'translateZ(0)',
         transform: 'translateZ(0)',
         isolation: 'isolate',
-        WebkitBackfaceVisibility: 'hidden',
-        backfaceVisibility: 'hidden',
       } : {}}
     >
-      {/* 桌面端光晕效果 - 保持原有复杂效果 */}
-      {!isMobile && (
-        <div 
-          className={`absolute rounded-full bg-gradient-to-r ${glowColors.from} ${glowColors.to} blur-lg animate-pulse`}
-          style={{
-            width: `${size * 1.2}px`,
-            height: `${size * 1.2}px`,
-          }}
-        />
-      )}
-      
-      {/* 移动端光晕效果 - 完全不使用任何滤镜 */}
-      {isMobile && (
-        <div 
-          className={`absolute rounded-full animate-pulse`}
-          style={{
-            width: `${size * 1.15}px`,
-            height: `${size * 1.15}px`,
-            background: moonColorScheme === "warm" 
-              ? `radial-gradient(circle, rgba(254, 250, 113, 0.2) 0%, rgba(255, 229, 102, 0.15) 40%, transparent 70%)`
-              : `radial-gradient(circle, rgba(140, 125, 177, 0.1) 0%, rgba(163, 149, 201, 0.08) 40%, transparent 70%)`,
+      {/* 外部光晕效果 - 移除 blur 在移动端可能导致边框 */}
+      <div 
+        className={`absolute rounded-full bg-gradient-to-r ${glowColors.from} ${glowColors.to} ${isMobile ? '' : 'blur-lg'} animate-pulse`}
+        style={{
+          width: `${size * 1.2}px`,
+          height: `${size * 1.2}px`,
+          ...(isMobile ? {
             outline: 'none',
             border: 'none',
             WebkitTapHighlightColor: 'transparent',
-          }}
-        />
-      )}
+            // 移动端使用更温和的模糊替代
+            filter: 'blur(8px)',
+          } : {})
+        }}
+      />
       
       {/* 主月球 */}
       <div 
@@ -116,14 +102,14 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
           width: `${size}px`,
           height: `${size}px`,
           background: moonColorScheme === "warm" ? yellowGradient : "#20202c",
-          boxShadow: isMobile 
-            ? '0 0 15px rgba(255, 245, 160, 0.15)' // 移动端简化阴影
-            : '0 0 30px rgba(255, 245, 160, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.1)',
-          outline: 'none',
-          border: 'none',
-          WebkitTapHighlightColor: 'transparent',
-          WebkitTransform: 'translateZ(0)',
-          transform: 'translateZ(0)',
+          boxShadow: '0 0 30px rgba(255, 245, 160, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.1)',
+          ...(isMobile ? {
+            outline: 'none',
+            border: 'none',
+            WebkitTapHighlightColor: 'transparent',
+            WebkitTransform: 'translateZ(0)',
+            transform: 'translateZ(0)',
+          } : {})
         }}
       >
         {/* 轻微旋转的容器 */}

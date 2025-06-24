@@ -116,14 +116,14 @@ const Moon: React.FC<MoonProps> = ({ size = 200, moonColorScheme = "cool" }) => 
           width: `${size}px`,
           height: `${size}px`,
           background: moonColorScheme === "warm" ? yellowGradient : "#20202c",
-          boxShadow: isMobile 
-            ? '0 0 15px rgba(255, 245, 160, 0.15)' // 移动端简化阴影
-            : '0 0 30px rgba(255, 245, 160, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.1)',
-          outline: 'none',
-          border: 'none',
-          WebkitTapHighlightColor: 'transparent',
-          WebkitTransform: 'translateZ(0)',
-          transform: 'translateZ(0)',
+          boxShadow: '0 0 30px rgba(255, 245, 160, 0.2), inset 0 0 50px rgba(255, 255, 255, 0.1)',
+          ...(isMobile ? {
+            outline: 'none',
+            border: 'none',
+            WebkitTapHighlightColor: 'transparent',
+            WebkitTransform: 'translateZ(0)',
+            transform: 'translateZ(0)',
+          } : {})
         }}
       >
         {/* 轻微旋转的容器 */}
