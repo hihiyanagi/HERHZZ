@@ -1,0 +1,113 @@
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  0% {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px) translateZ(0);
+  }
+  50% {
+    transform: translateY(-10px) translateZ(0);
+  }
+  100% {
+    transform: translateY(0px) translateZ(0);
+  }
+}
+
+@keyframes pulse-soft {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+@keyframes gradient-flow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes color-shift {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  50% {
+    filter: hue-rotate(10deg);
+  }
+  100% {
+    filter: hue-rotate(0deg);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.5s ease-out forwards;
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* 在移动端单独处理硬件加速 */
+@media (max-width: 768px) {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+    -webkit-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    will-change: transform;
+    /* 强力移除移动端边界显示 */
+    outline: none !important;
+    border: none !important;
+    -webkit-tap-highlight-color: transparent !important;
+    -webkit-user-select: none !important;
+    user-select: none !important;
+    /* 防止合成层边界显示 */
+    isolation: isolate;
+  }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 3s infinite;
+}
+
+.animate-gradient-flow {
+  animation: gradient-flow 8s ease infinite;
+}
+
+.animate-color-shift {
+  animation: color-shift 5s ease-in-out infinite;
+}
