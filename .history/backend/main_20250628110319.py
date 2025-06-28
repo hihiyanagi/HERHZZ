@@ -1,0 +1,391 @@
+from fastapi import FastAPI, HTTPException, Depends, Security, Request
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.middleware.cors import CORSMiddleware
+import jwt
+import os
+from typing import Optional
+from datetime import datetime
+import uvicorn
+from dotenv import load_dotenv
+
+# 导入我们的模型和服务
+from models import CreateOrderRequest, CreateOrderResponse, PaymentNotification
+from database_service import DatabaseService
+from payment_service import PaymentService
+from utils import generate_order_number, get_client_ip, validate_amount
+
+# 加载环境变量
+load_dotenv()
+
+# 创建FastAPI应用实例
+app = FastAPI(title="HERHZZZ Payment API", version="1.0.0")
+
+# 配置CORS中间件，允许前端跨域请求
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:5173", "http://localhost:3000"],  # Vite和其他前端端口
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# HTTP Bearer认证scheme，用于从请求头获取Token
+security = HTTPBearer()
+
+# 从环境变量获取Supabase JWT密钥
+# 这个密钥用于验证Supabase生成的JWT Token的真实性
+SUPABASE_JWT_SECRET = os.getenv("SUPABASE_JWT_SECRET")
+
+if not SUPABASE_JWT_SECRET:
+    raise ValueError("SUPABASE_JWT_SECRET environment variable is required")
+
+# 初始化服务实例
+database_service = DatabaseService()
+payment_service = PaymentService()
+
+def verify_jwt_token(credentials: HTTPAuthorizationCredentials = Security(security)) -> dict:
+    """
+    验证JWT Token的有效性
+    
+    Args:
+        credentials: HTTP Authorization头中的Bearer Token
+        
+    Returns:
+        dict: 解码后的JWT payload，包含用户信息
+        
+    Raises:
+        HTTPException: Token无效、过期或解析失败时抛出401错误
+    """
+    token = credentials.credentials
+    
+    try:
+        # 使用Supabase JWT密钥验证和解码Token
+        # jwt.decode会验证：
+        # 1. Token签名是否正确
+        # 2. Token是否过期
+        # 3. Token格式是否正确
+        payload = jwt.decode(
+            token, 
+            SUPABASE_JWT_SECRET, 
+            algorithms=["HS256"]  # Supabase使用HS256算法
+        )
+        
+        # 检查Token是否过期（双重验证）
+        if payload.get('exp') and payload['exp'] < datetime.utcnow().timestamp():
+            raise HTTPException(
+                status_code=401, 
+                detail="Token已过期"
+            )
+            
+        return payload
+        
+    except jwt.ExpiredSignatureError:
+        # Token过期
+        raise HTTPException(
+            status_code=401, 
+            detail="Token已过期，请重新登录"
+        )
+    except jwt.InvalidTokenError:
+        # Token无效（签名错误、格式错误等）
+        raise HTTPException(
+            status_code=401, 
+            detail="Token无效，请重新登录"
+        )
+    except Exception as e:
+        # 其他错误
+        raise HTTPException(
+            status_code=401, 
+            detail=f"Token验证失败: {str(e)}"
+        )
+
+def get_current_user(token_payload: dict = Depends(verify_jwt_token)) -> dict:
+    """
+    从JWT Token中提取当前用户信息
+    
+    Args:
+        token_payload: 验证后的JWT payload
+        
+    Returns:
+        dict: 用户信息，包含user_id, email等
+    """
+    # Supabase JWT Token的标准字段：
+    # - sub: 用户ID
+    # - email: 用户邮箱
+    # - aud: 受众 (audience)
+    # - exp: 过期时间
+    # - iat: 签发时间
+    
+    user_id = token_payload.get('sub')  # 'sub'字段包含用户ID
+    email = token_payload.get('email')
+    
+    if not user_id:
+        raise HTTPException(
+            status_code=401, 
+            detail="Token中缺少用户ID"
+        )
+    
+    return {
+        'user_id': user_id,
+        'email': email,
+        'token_payload': token_payload  # 完整的token数据，如果需要其他字段
+    }
+
+# ===== API路由 =====
+
+@app.get("/")
+async def root():
+    """健康检查接口"""
+    return {"message": "HERHZZZ Payment API is running"}
+
+@app.get("/api/protected")
+async def protected_route(current_user: dict = Depends(get_current_user)):
+    """
+    受保护的API路由示例
+    
+    这个接口需要有效的JWT Token才能访问
+    前端调用时必须在Authorization头中包含Token
+    """
+    return {
+        "message": "这是受保护的数据",
+        "user_id": current_user['user_id'],
+        "email": current_user['email'],
+        "access_time": datetime.utcnow().isoformat()
+    }
+
+@app.post("/api/create_order", response_model=CreateOrderResponse)
+async def create_order(
+    request: Request,
+    order_request: CreateOrderRequest,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    创建支付订单接口
+    
+    功能流程：
+    1. 验证用户身份和订单数据
+    2. 生成唯一的商户订单号
+    3. 在数据库中创建订单记录
+    4. 调用 ZPay 创建支付订单
+    5. 更新订单的支付信息
+    6. 返回支付链接给前端
+    
+    Args:
+        request: FastAPI Request 对象（用于获取客户端IP）
+        order_request: 订单创建请求数据
+        current_user: 当前登录用户信息
+        
+    Returns:
+        CreateOrderResponse: 包含订单号和支付链接的响应
+        
+    Raises:
+        HTTPException: 订单创建失败时抛出异常
+    """
+    try:
+        # 1. 验证用户ID（确保用户只能为自己创建订单）
+        if order_request.user_id != current_user['user_id']:
+            raise HTTPException(
+                status_code=403,
+                detail="用户只能为自己创建订单"
+            )
+        
+        # 2. 验证金额格式
+        if not validate_amount(order_request.amount):
+            raise HTTPException(
+                status_code=400,
+                detail="金额格式错误，必须大于0且最多两位小数"
+            )
+        
+        # 3. 生成唯一的商户订单号
+        out_trade_no = generate_order_number()
+        
+        # 4. 获取客户端IP地址
+        client_ip = get_client_ip(request)
+        
+        # 5. 准备订单数据
+        order_data = {
+            "out_trade_no": out_trade_no,
+            "user_id": order_request.user_id,
+            "name": order_request.name,
+            "amount": order_request.amount,
+            "payment_type": order_request.payment_type,
+            "status": "pending",
+            "client_ip": client_ip,
+            "device": "pc",  # 默认设备类型
+            "params": {}  # 扩展参数
+        }
+        
+        # 6. 在数据库中创建订单记录
+        created_order = await database_service.create_order(order_data)
+        
+        # 7. 调用 ZPay 创建支付订单
+        payment_result = await payment_service.create_payment(
+            order_request=order_request,
+            out_trade_no=out_trade_no,
+            client_ip=client_ip,
+            device="pc"
+        )
+        
+        # 8. 更新订单的支付信息
+        await database_service.update_order_payment_info(
+            out_trade_no=out_trade_no,
+            zpay_trade_no=payment_result.get("zpay_trade_no"),
+            pay_url=payment_result.get("payurl"),
+            qr_code=payment_result.get("qrcode"),
+            status="pending"
+        )
+        
+        # 9. 返回响应
+        return CreateOrderResponse(
+            out_trade_no=out_trade_no,
+            payurl=payment_result.get("payurl"),
+            qrcode=payment_result.get("qrcode"),
+            status="pending"
+        )
+        
+    except HTTPException:
+        # 重新抛出 HTTP 异常
+        raise
+    except Exception as e:
+        # 处理其他异常
+        print(f"创建订单失败: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"订单创建失败: {str(e)}"
+        )
+
+@app.post("/api/payment/notify")
+async def payment_notify(request: Request):
+    """
+    ZPay 支付通知回调接口
+    
+    这个接口用于接收 ZPay 的支付结果通知
+    当用户完成支付后，ZPay 会调用这个接口
+    
+    Args:
+        request: FastAPI Request 对象
+        
+    Returns:
+        str: 处理结果（"success" 表示成功）
+    """
+    try:
+        # 获取通知数据
+        if request.headers.get("content-type", "").startswith("application/json"):
+            notification_data = await request.json()
+        else:
+            # ZPay 通常使用 form-data 格式
+            form_data = await request.form()
+            notification_data = dict(form_data)
+        
+        print(f"收到支付通知: {notification_data}")
+        
+        # 验证通知签名
+        if not payment_service.verify_notification(notification_data):
+            print("支付通知签名验证失败")
+            raise HTTPException(status_code=400, detail="签名验证失败")
+        
+        # 获取订单号和交易状态
+        out_trade_no = notification_data.get("out_trade_no")
+        trade_status = notification_data.get("trade_status", "")
+        
+        if not out_trade_no:
+            raise HTTPException(status_code=400, detail="缺少订单号")
+        
+        # 根据交易状态更新订单
+        if trade_status.upper() in ["SUCCESS", "TRADE_SUCCESS", "PAID"]:
+            # 支付成功
+            await database_service.update_order_status(out_trade_no, "paid")
+            print(f"订单 {out_trade_no} 支付成功")
+        elif trade_status.upper() in ["FAILED", "TRADE_FAILED"]:
+            # 支付失败
+            await database_service.update_order_status(out_trade_no, "failed")
+            print(f"订单 {out_trade_no} 支付失败")
+        
+        # 返回成功响应给 ZPay
+        return "success"
+        
+    except Exception as e:
+        print(f"处理支付通知失败: {str(e)}")
+        raise HTTPException(status_code=500, detail="处理支付通知失败")
+
+@app.get("/api/orders")
+async def get_user_orders(
+    page: int = 1,
+    limit: int = 20,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    获取用户订单列表
+    
+    Args:
+        page: 页码（从1开始）
+        limit: 每页数量
+        current_user: 当前用户信息
+        
+    Returns:
+        dict: 包含订单列表和分页信息的响应
+    """
+    try:
+        offset = (page - 1) * limit
+        orders = await database_service.get_user_orders(
+            user_id=current_user['user_id'],
+            limit=limit,
+            offset=offset
+        )
+        
+        return {
+            "orders": orders,
+            "page": page,
+            "limit": limit,
+            "total": len(orders)
+        }
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"获取订单列表失败: {str(e)}"
+        )
+
+@app.get("/api/user/profile")
+async def get_user_profile(current_user: dict = Depends(get_current_user)):
+    """
+    获取用户个人资料
+    
+    实际项目中，你可以根据user_id从数据库查询用户详细信息
+    """
+    user_id = current_user['user_id']
+    
+    # 这里你可以添加数据库查询逻辑
+    # 例如：user_data = await database.fetch_user_profile(user_id)
+    
+    return {
+        "user_id": user_id,
+        "email": current_user['email'],
+        "profile": {
+            "nickname": "用户昵称",
+            "avatar": "头像URL",
+            "created_at": "2024-01-01T00:00:00Z"
+        }
+    }
+
+@app.post("/api/user/profile")
+async def update_user_profile(
+    profile_data: dict,
+    current_user: dict = Depends(get_current_user)
+):
+    """
+    更新用户个人资料
+    """
+    user_id = current_user['user_id']
+    
+    # 这里你可以添加数据库更新逻辑
+    # 例如：await database.update_user_profile(user_id, profile_data)
+    
+    return {
+        "message": "个人资料更新成功",
+        "user_id": user_id,
+        "updated_data": profile_data
+    }
+
+if __name__ == "__main__":
+    # 运行服务器
+    uvicorn.run(app, host="0.0.0.0", port=8000) 

@@ -1,0 +1,16 @@
+# 环境变量配置示例
+# 复制此文件为 .env 并填入实际值
+
+# Supabase 配置
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key-here
+SUPABASE_JWT_SECRET=your-jwt-secret-here
+
+# ZPay 支付配置
+ZPAY_MERCHANT_ID=your-merchant-id
+ZPAY_MERCHANT_KEY=your-merchant-key
+ZPAY_NOTIFY_URL=https://your-domain.com/api/payment/notify
+
+# 服务器配置（可选）
+PORT=8000
+DEBUG=true 
