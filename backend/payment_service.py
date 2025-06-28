@@ -19,6 +19,12 @@ class PaymentService:
         self.merchant_key = os.getenv("ZPAY_MERCHANT_KEY") 
         self.notify_url = os.getenv("ZPAY_NOTIFY_URL", "")
         
+        # 🔍 调试信息：显示ZPay配置加载状态
+        print("🔍 PaymentService 初始化:")
+        print(f"✅ ZPAY_MERCHANT_ID: {'已设置' if self.merchant_id else '❌ 未设置'}")
+        print(f"✅ ZPAY_MERCHANT_KEY: {'已设置' if self.merchant_key else '❌ 未设置'}")  
+        print(f"✅ ZPAY_NOTIFY_URL: {self.notify_url if self.notify_url else '❌ 未设置'}")
+        
         if not self.merchant_id or not self.merchant_key:
             raise ValueError("缺少 ZPay 配置信息，请检查环境变量")
     
@@ -112,6 +118,19 @@ class PaymentService:
             "sign_type": "MD5"
         }
         
+        # 🔍 调试信息：检查ZPay参数
+        print("🔍 ZPay参数检查:")
+        for key, value in params.items():
+            if value is None or value == "":
+                print(f"❌ {key}: 空值或None!")
+            else:
+                if key == "money":
+                    print(f"✅ {key}: {value}")
+                elif key in ["pid", "notify_url"]:
+                    print(f"✅ {key}: {value}")
+                else:
+                    print(f"✅ {key}: {str(value)[:20]}...")
+        
         return params
     
     async def create_payment(
@@ -144,6 +163,16 @@ class PaymentService:
             
             # 生成签名
             params["sign"] = generate_md5_signature(params, self.merchant_key)
+            
+            # 🔍 调试信息：显示完整的发送参数（包括签名）
+            print("🔍 发送给ZPay的完整参数:")
+            for key, value in params.items():
+                if key == "sign":
+                    print(f"✅ {key}: {value[:10]}...{value[-10:]}")
+                elif value is None or value == "":
+                    print(f"❌ {key}: 空值或None!")
+                else:
+                    print(f"✅ {key}: {value}")
             
             # 发送请求到 ZPay
             async with httpx.AsyncClient(timeout=30.0) as client:
