@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { toast } from '@/hooks/use-toast'
+import { API_CONFIG, buildApiUrl, createApiConfig } from '@/config/api'
 
 // 订单状态类型
 type OrderStatus = 'pending' | 'paid' | 'failed' | 'cancelled'
@@ -85,8 +86,7 @@ export default function QRCodePayment({
   const pollStartTimeRef = useRef<number | null>(null)
   const countdownIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
-  // 后端 API 基础 URL - 根据你的实际后端地址调整
-  const API_BASE_URL = 'http://localhost:8000'
+  // 使用统一的 API 配置
 
   // 清理所有定时器
   const cleanupTimers = () => {
@@ -134,7 +134,7 @@ export default function QRCodePayment({
         user_id: user.id
       }
 
-      const response = await fetch(`${API_BASE_URL}/api/create_order`, {
+      const response = await fetch(buildApiUrl(API_CONFIG.ENDPOINTS.CREATE_ORDER), {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -227,7 +227,7 @@ export default function QRCodePayment({
     try {
       const token = await getAccessToken()
       
-      const response = await fetch(`${API_BASE_URL}/api/get_order_status/${outTradeNo}`, {
+      const response = await fetch(buildApiUrl(`${API_CONFIG.ENDPOINTS.GET_ORDER_STATUS}/${outTradeNo}`), {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`

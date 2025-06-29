@@ -17,5 +17,5 @@ pydantic==2.5.0
 # Supabase客户端
 supabase==2.3.4
 
-# UUID支持
-uuid==1.30 
+# UUID支持 - 注意：uuid是Python内置模块，不需要安装
+# uuid==1.30  # 移除这行，因为uuid是内置模块 
