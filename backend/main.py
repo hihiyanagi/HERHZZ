@@ -25,9 +25,15 @@ load_dotenv()
 app = FastAPI(title="HERHZZZ Payment API", version="1.0.0")
 
 # 配置CORS中间件，允许前端跨域请求
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:5173")
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Vite和其他前端端口
+    allow_origins=[
+        frontend_url,
+        "https://www.herhzzz.xyz",
+        "https://herhzzz.xyz",
+        "http://localhost:5173",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
