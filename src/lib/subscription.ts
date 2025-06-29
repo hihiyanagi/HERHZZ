@@ -1,4 +1,5 @@
 import { supabase } from './supabase'
+import { API_CONFIG, buildApiUrl } from '@/config/api'
 // 请先安装: npm install crypto-js @types/crypto-js
 // import CryptoJS from 'crypto-js'
 
@@ -387,7 +388,8 @@ export async function createSubscriptionOrder(subscriptionType: SubscriptionType
     const backendSubscriptionType = subscriptionType
 
     // Call backend API to create subscription QR code order
-    const response = await fetch('http://localhost:8000/api/create_subscription_qr_order', {
+    // 使用 API 配置中的地址
+    const response = await fetch(buildApiUrl(API_CONFIG.ENDPOINTS.CREATE_SUBSCRIPTION_ORDER), {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
