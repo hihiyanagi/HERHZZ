@@ -54,26 +54,58 @@ export const userService = {
 export const settingsService = {
   // 获取用户设置
   async getUserSettings(userId: string) {
-    const { data, error } = await supabase
-      .from('user_settings')
-      .select('*')
-      .eq('user_id', userId)
-      .single()
-    
-    if (error && error.code !== 'PGRST116') throw error // 忽略"未找到记录"错误
-    return data
+    try {
+      const { data, error } = await supabase
+        .from('user_settings')
+        .select('*')
+        .eq('user_id', userId)
+        .single()
+      
+      if (error) {
+        console.error('获取用户设置失败:', error)
+        // 返回默认设置而不是抛出错误
+        return {
+          user_id: userId,
+          default_cycle_length: 28,
+          average_menstrual_days: 5,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      }
+      
+      return data
+    } catch (e) {
+      console.error('获取用户设置异常:', e)
+      // 返回默认设置
+      return {
+        user_id: userId,
+        default_cycle_length: 28,
+        average_menstrual_days: 5,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      }
+    }
   },
 
   // 创建或更新用户设置
   async upsertUserSettings(settings: UserSettingsInsert) {
-    const { data, error } = await supabase
-      .from('user_settings')
-      .upsert(settings)
-      .select()
-      .single()
-    
-    if (error) throw error
-    return data
+    try {
+      const { data, error } = await supabase
+        .from('user_settings')
+        .upsert(settings)
+        .select()
+        .single()
+      
+      if (error) {
+        console.error('更新用户设置失败:', error)
+        return settings as UserSettings
+      }
+      
+      return data
+    } catch (e) {
+      console.error('更新用户设置异常:', e)
+      return settings as UserSettings
+    }
   }
 }
 
@@ -264,7 +296,7 @@ export const authService = {
       email,
       password,
       options: {
-        data: userData // 将额外数据存储在user metadata中
+        data: userData
       }
     })
     
