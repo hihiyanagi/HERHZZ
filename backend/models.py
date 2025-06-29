@@ -81,7 +81,7 @@ class CreateSubscriptionOrderRequest(BaseModel):
     def subscription_amount(self) -> float:
         """获取订阅价格"""
         price_map = {
-            SubscriptionType.THREE_MONTHS: 0.1,
+            SubscriptionType.THREE_MONTHS: 29.99,
             SubscriptionType.ONE_YEAR: 99.99,
             SubscriptionType.LIFETIME: 299.99
         }

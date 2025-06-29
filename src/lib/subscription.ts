@@ -48,7 +48,7 @@ export const SUBSCRIPTION_PLANS: SubscriptionPlan[] = [
   {
     type: 'monthly_3',
     name: '季度会员',
-    price: 0.1,
+    price: 29.99,
     duration_days: 90,
     description: '3个月权益',
     poeticDescription: '「试着与身体同步一个季节」',
