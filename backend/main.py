@@ -561,14 +561,117 @@ async def create_order(
             detail=f"订单创建失败: {str(e)}"
         )
 
+@app.post("/notify_url")
+@app.get("/notify_url")
+async def zpay_notify_callback(request: Request):
+    """
+    ZPay 支付通知回调接口 (匹配环境配置)
+    
+    这个接口专门用于接收 ZPay 的支付结果通知
+    当用户完成支付后，ZPay 会调用这个接口
+    支持GET和POST两种方式（ZPay可能使用任一种）
+    
+    Args:
+        request: FastAPI Request 对象
+        
+    Returns:
+        str: 处理结果（"success" 表示成功给ZPay）
+    """
+    try:
+        # 获取通知数据 - 支持GET和POST两种方式
+        if request.method == "GET":
+            # GET方式：从查询参数获取
+            notification_data = dict(request.query_params)
+            print(f"🔔 收到 ZPay 异步通知 (GET): {notification_data}")
+        else:
+            # POST方式：从表单或JSON获取
+            if request.headers.get("content-type", "").startswith("application/json"):
+                notification_data = await request.json()
+                print(f"🔔 收到 ZPay 异步通知 (JSON): {notification_data}")
+            else:
+                # ZPay 通常使用 form-data 格式
+                form_data = await request.form()
+                notification_data = dict(form_data)
+                print(f"🔔 收到 ZPay 异步通知 (FORM): {notification_data}")
+        
+        # 验证必要参数
+        required_params = ["out_trade_no", "trade_status", "sign"]
+        for param in required_params:
+            if not notification_data.get(param):
+                print(f"❌ 缺少必要参数: {param}")
+                return "fail"
+        
+        # 验证通知签名
+        if not payment_service.verify_notification(notification_data):
+            print("❌ 支付通知签名验证失败")
+            return "fail"
+        
+        print("✅ 签名验证通过")
+        
+        # 获取订单号和交易状态
+        out_trade_no = notification_data.get("out_trade_no")
+        trade_status = notification_data.get("trade_status", "")
+        notified_amount = float(notification_data.get("money", "0"))
+        
+        # 验证交易状态
+        if trade_status.upper() not in ["SUCCESS", "TRADE_SUCCESS", "PAID"]:
+            print(f"⚠️ 支付状态非成功: {trade_status}")
+            return "success"  # 仍返回success避免重复通知
+        
+        print("✅ 支付状态检查通过")
+        
+        # 获取订单信息
+        order = await database_service.get_order_by_trade_no(out_trade_no)
+        if not order:
+            print(f"❌ 订单不存在: {out_trade_no}")
+            return "fail"
+        
+        print(f"✅ 找到订单: {order['status']}")
+        
+        # 检查订单是否已经处理过（幂等性）
+        if order["status"] == "paid":
+            print(f"⚠️ 订单 {out_trade_no} 已经是支付成功状态，跳过处理")
+            return "success"
+        
+        # 验证金额是否一致（防止金额篡改）
+        if abs(float(order["amount"]) - notified_amount) > 0.01:
+            print(f"❌ 金额不匹配: 订单金额={order['amount']}, 通知金额={notified_amount}")
+            return "fail"
+        
+        print("✅ 金额验证通过")
+        
+        # 更新订单状态为已支付
+        success = await database_service.update_order_status(out_trade_no, "paid")
+        if not success:
+            print(f"❌ 更新订单状态失败: {out_trade_no}")
+            return "fail"
+        
+        print(f"✅ 订单 {out_trade_no} 状态更新为已支付")
+        
+        # 如果是订阅订单，更新用户会员状态
+        if order.get("order_type") == "subscription":
+            print(f"🔄 开始更新用户会员状态: user_id={order['user_id']}, type={order.get('subscription_type')}")
+            
+            # 这里会员状态更新已经在 database_service.update_order_status 中自动处理
+            # 通过 _handle_subscription_payment_success 方法
+            
+            print(f"✅ 用户 {order['user_id']} 会员状态更新成功: {order.get('subscription_type')}")
+        
+        print("🎉 ZPay 异步通知处理成功")
+        
+        # 返回成功响应给 ZPay（必须是纯字符串"success"）
+        return "success"
+        
+    except Exception as e:
+        print(f"❌ 处理支付通知失败: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return "fail"
+
 @app.post("/api/payment/notify")
 async def payment_notify(request: Request):
     """
-    ZPay 支付通知回调接口
-    
-    这个接口用于接收 ZPay 的支付结果通知
-    当用户完成支付后，ZPay 会调用这个接口
-    支持普通支付和订阅支付的通知处理
+    ZPay 支付通知回调接口 (原有接口，保持兼容性)
     
     Args:
         request: FastAPI Request 对象
@@ -585,7 +688,7 @@ async def payment_notify(request: Request):
             form_data = await request.form()
             notification_data = dict(form_data)
         
-        print(f"收到支付通知: {notification_data}")
+        print(f"收到支付通知 (旧接口): {notification_data}")
         
         # 验证通知签名
         if not payment_service.verify_notification(notification_data):

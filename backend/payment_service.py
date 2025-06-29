@@ -43,7 +43,7 @@ class PaymentService:
             "monthly_3": {
                 "name": "HERHZZZ 3个月会员",
                 "duration_days": 90,
-                "price": 29.99,
+                "price": 0.1,
                 "description": "3个月畅享全部高品质睡眠音频",
                 "features": [
                     "解锁全部周期音频",

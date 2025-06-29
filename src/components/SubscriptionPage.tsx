@@ -409,21 +409,6 @@ export default function SubscriptionPage() {
           {/* 操作按钮 */}
           <div className="space-y-3">
             <Button
-              onClick={handleCheckPaymentStatus}
-              disabled={isLoading}
-              className="w-full bg-green-600 hover:bg-green-700 text-white"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  检查中...
-                </>
-              ) : (
-                "我已完成支付，检查状态"
-              )}
-            </Button>
-            
-            <Button
               variant="outline"
               onClick={handleBackToSelection}
               className="w-full bg-white/20 border-white/30 text-white hover:bg-white/30"
