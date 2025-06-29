@@ -131,7 +131,7 @@ const CycleInfo = () => {
       return (
         <div className="text-center mb-6">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-white/70 text-sm">
-            检查会员状态中...
+            
           </div>
         </div>
       );
