@@ -19,8 +19,7 @@ const getApiBaseUrl = (): string => {
     return 'http://localhost:8000';
   } else {
     // 生产环境：使用 Vercel 部署的后端
-    // 你需要将这个 URL 替换为你的实际后端 Vercel 域名
-    return import.meta.env.VITE_API_BASE_URL || 'https://your-backend-project.vercel.app';
+    return 'https://herhzz-backend.vercel.app';
   }
 };
 
