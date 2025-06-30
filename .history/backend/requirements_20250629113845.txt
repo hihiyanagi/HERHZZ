@@ -1,0 +1,21 @@
+# FastAPI框架和相关依赖
+fastapi==0.115.14
+uvicorn==0.34.3
+
+# JWT Token处理
+PyJWT==2.8.0
+
+# 环境变量处理
+python-dotenv==1.0.0
+
+# HTTP客户端（用于调用ZPay API）
+httpx==0.28.1
+
+# 数据验证（Pydantic已包含在FastAPI中）
+pydantic==2.5.0
+
+# Supabase客户端
+supabase==2.16.0
+
+# UUID支持 - 注意：uuid是Python内置模块，不需要安装
+# uuid==1.30  # 移除这行，因为uuid是内置模块 
