@@ -15,7 +15,7 @@ function MainApp() {
 
   // 完全移除加载状态 - 直接显示背景，无任何加载提示
   if (isLoading) {
-    return <ConsistentBackground>{null}</ConsistentBackground>
+    return <ConsistentBackground />
   }
 
   return (
